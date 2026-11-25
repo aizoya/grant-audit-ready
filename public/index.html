@@ -3,342 +3,146 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grant Audit Ready by AIZOYA | Know before the auditor does</title>
-<meta name="description" content="Check a Single Audit package before the auditor does. Every finding quotes the exact page it came from. Built for CPA firms and grantees.">
+<title>Grant Audit Ready by AIZOYA | Meta Muse Ember Hackathon</title>
+<meta name="description" content="Grant Audit Ready checks a Single Audit package before the auditor does. Every finding quotes the exact page it came from. Built on Meta Muse Ember.">
 <meta name="theme-color" content="#071C45">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/icon-192.png">
 <link rel="apple-touch-icon" href="/icon-192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Audit Ready">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#071C45;--navy2:#102B56;--blue:#087CF0;--cyan:#0BA5F5;--gold:#D7B06A;--ink:#e6eefc;--mute:#9db0d3;--line:rgba(157,176,211,.22);--ok:#4ad6a0;--warn:#ffcc66}
+:root{--navy:#071C45;--navy2:#102B56;--blue:#087CF0;--cyan:#0BA5F5;--gold:#D7B06A;--ink:#e6eefc;--mute:#9db0d3;--line:rgba(157,176,211,.22);--ok:#4ad6a0}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-section,#result{scroll-margin-top:76px}
-body{margin:0;background:var(--navy);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--navy);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;color:#fff;line-height:1.15;margin:0 0 12px}
+h1{font-size:clamp(34px,6vw,60px)} h2{font-size:clamp(24px,3.4vw,34px)} h3{font-size:19px}
 a{color:var(--cyan)}
-.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-header.top{position:sticky;top:0;z-index:20;background:rgba(7,28,69,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
-header.top img{height:30px;display:block}
-nav{display:flex;gap:20px;font-size:14px;font-weight:600}
-nav a{color:var(--ink);text-decoration:none;opacity:.85}
-nav a:hover{opacity:1;color:var(--gold)}
-@media(max-width:720px){nav a.hide-m{display:none}}
-.hero{padding:72px 0 56px;background:radial-gradient(900px 420px at 80% -10%,rgba(11,165,245,.28),transparent 60%),linear-gradient(180deg,var(--navy) 0%,#0a2350 100%);border-bottom:3px solid var(--gold)}
-.kicker{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
-h1{font-family:'Space Grotesk',Inter,sans-serif;font-size:clamp(40px,7vw,78px);line-height:1.02;letter-spacing:-.025em;margin:14px 0 18px;color:#fff;max-width:880px;text-wrap:balance}
-.lead{font-size:clamp(18px,2.2vw,22px);color:#cfdcf5;max-width:720px;margin:0 0 28px}
-.cta{display:flex;flex-wrap:wrap;gap:12px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;border:1px solid transparent;cursor:pointer;font-family:inherit}
-.btn.primary{background:var(--blue);color:#fff}
-.btn.primary:hover{background:#2b8ff3}
-.btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.35)}
-.btn.ghost:hover{border-color:var(--gold);color:var(--gold)}
-.btn[disabled]{opacity:.55;cursor:not-allowed}
-.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
-.badge{border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600;color:var(--mute);background:rgba(16,43,86,.6)}
-section{padding:64px 0}
-section.alt{background:#0a2350;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-h2{font-family:'Space Grotesk',Inter,sans-serif;font-size:clamp(28px,4vw,44px);line-height:1.1;letter-spacing:-.02em;margin:8px 0 12px;color:#fff}
-.sub{color:var(--mute);max-width:720px;margin:0 0 28px;font-size:18px}
-.grid{display:grid;gap:16px}
-.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
-@media(max-width:900px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:720px){.g3,.g2,.g4{grid-template-columns:1fr}}
-.card{background:linear-gradient(160deg,var(--navy2),#0c2550);border:1px solid var(--line);border-radius:16px;padding:20px}
-.card h3{margin:0 0 6px;font-size:18px;color:#fff}
-.card p{margin:0;color:#c3d1ee;font-size:15px}
-.step{font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:700;color:var(--gold);line-height:1}
-.scn{cursor:pointer;text-align:left;color:inherit;font:inherit;transition:border-color .15s,transform .15s}
-.scn:hover{border-color:var(--cyan);transform:translateY(-2px)}
-.scn[aria-pressed=true]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
-.tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:6px;margin-bottom:10px}
-.tag.clean{background:rgba(74,214,160,.16);color:var(--ok)}
-.tag.issue{background:rgba(255,204,102,.16);color:var(--warn)}
-/* result viewer */
-#result{margin-top:28px;display:none}
-.meter{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+header.top{border-bottom:1px solid var(--line);background:rgba(5,22,54,.9);position:sticky;top:0;z-index:10;backdrop-filter:blur(8px)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+header.top img{height:24px;display:block}
+.btn{display:inline-block;border-radius:10px;padding:12px 20px;font-weight:700;text-decoration:none;font-size:15px}
+.btn.primary{background:var(--blue);color:#fff}.btn.ghost{border:1px solid var(--line);color:var(--ink)}
+.hero{padding:56px 0 28px}
+.kicker{color:var(--gold);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:10px}
+.lead{font-size:19px;color:#cdd9f2;max-width:720px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 0;border-bottom:1px solid var(--line);padding-bottom:0;overflow-x:auto}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;color:var(--mute);font:600 15px Inter,sans-serif;padding:12px 14px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected=true]{color:#fff;border-bottom-color:var(--gold)}
+.panel{display:none;padding:30px 0 56px}.panel.on{display:block}
+.grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{background:rgba(16,43,86,.6);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card p{margin:6px 0 0;color:#cdd9f2}
+.meter{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}
 .meter .m{flex:1 1 150px;background:rgba(11,165,245,.1);border:1px solid rgba(11,165,245,.4);border-radius:12px;padding:12px 14px}
-.meter .m b{display:block;font-family:'Space Grotesk',sans-serif;font-size:24px;color:#fff}
+.meter .m b{display:block;font-family:'Space Grotesk',sans-serif;font-size:26px;color:#fff}
 .meter .m span{font-size:12px;color:var(--mute);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
-.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:16px;align-items:start}
-@media(max-width:900px){.split{grid-template-columns:1fr}}
-.finding{border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:12px;padding:14px;margin-bottom:12px;background:var(--navy2);cursor:pointer}
-.finding.sel{border-color:var(--gold);border-left-color:var(--gold)}
-.finding h4{margin:0 0 4px;font-size:16px;color:#fff}
-.finding .why{color:#c3d1ee;font-size:14px;margin:0 0 8px}
-.q{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;background:#06193d;border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:#dfe9ff;overflow-wrap:anywhere}
-.q small{display:block;color:var(--gold);font-family:Inter,sans-serif;font-weight:700;margin-bottom:4px;letter-spacing:.04em}
-.sev{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--warn)}
-.okbox{border:1px solid rgba(74,214,160,.4);background:rgba(74,214,160,.08);border-radius:12px;padding:14px;margin-bottom:12px;color:#d6f7ea}
-.passed{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.passed span{font-size:12px;border:1px solid rgba(74,214,160,.4);color:var(--ok);border-radius:999px;padding:4px 10px;font-weight:600}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.tabs button{background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:6px 12px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit}
-.tabs button[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:#fff}
-.page{background:#f7f9ff;color:#0f1b2d;border-radius:10px;padding:18px 20px;margin-bottom:10px;font-family:Georgia,'Times New Roman',serif;font-size:14.5px;white-space:pre-wrap;overflow-wrap:anywhere}
-.page .pn{display:block;font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:#5b6b82;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
-mark{background:#ffd27a;color:#0f1b2d;padding:1px 2px;border-radius:3px;outline:2px solid var(--gold)}
-.note{font-size:13px;color:var(--mute);margin-top:10px}
-/* upload */
-.drop{display:block;border:1.5px dashed rgba(157,176,211,.5);border-radius:14px;padding:16px;cursor:pointer;background:rgba(16,43,86,.5)}
-.drop b{display:block;color:#fff;margin-bottom:2px}
-.drop span{color:var(--mute);font-size:14px}
-.drop input{display:none}
-.drop.has{border-color:var(--ok);border-style:solid}
-.warnbox{border:1px solid rgba(255,204,102,.5);background:rgba(255,204,102,.08);color:#ffe7b0;border-radius:12px;padding:12px 14px;font-size:14px;margin:0 0 16px}
-.err{border:1px solid rgba(255,120,120,.55);background:rgba(255,90,90,.08);color:#ffd2d2;border-radius:12px;padding:12px 14px;margin-top:14px;display:none}
-table{width:100%;border-collapse:collapse;font-size:15px}
-th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
-th{color:var(--gold);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
-td.n{font-weight:700;color:#fff}
-.price{font-family:'Space Grotesk',sans-serif;font-size:44px;font-weight:700;color:#fff}
-.price small{font-size:16px;color:var(--mute);font-weight:500}
-footer{padding:44px 0 60px;border-top:3px solid var(--gold);background:#051636;color:var(--mute);font-size:14px}
-footer img{height:26px;display:block;margin-bottom:12px}
-.judge{border:1px solid var(--gold);border-radius:16px;padding:22px;background:linear-gradient(160deg,rgba(215,176,106,.12),rgba(16,43,86,.6))}
-.judge ol{margin:10px 0 0;padding-left:20px;color:#e6eefc}
-.judge li{margin:6px 0}
-@media print{header.top,.hero,section:not(#try),footer,.scn,#upload,.no-print{display:none!important}body{background:#fff;color:#000}#result{display:block!important}.card,.finding,.meter .m{background:#fff!important;color:#000!important;border-color:#999!important}.q{background:#f2f2f2;color:#000}.finding h4,.meter .m b{color:#000}}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--gold);font-size:12px;letter-spacing:.1em;text-transform:uppercase}td.n{font-weight:700;color:#fff}
+.pill{display:inline-block;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:700;margin:4px 6px 4px 0}
+.note{border:1px solid var(--gold);border-radius:12px;padding:14px 16px;background:rgba(215,176,106,.08);color:#f1e3c4;font-size:14px}
+iframe{width:100%;height:78vh;min-height:560px;border:1px solid var(--line);border-radius:14px;background:#071C45}
+ul.t{margin:8px 0 0;padding-left:20px}ul.t li{margin:6px 0;color:#cdd9f2}
+footer{padding:36px 0 56px;border-top:3px solid var(--gold);background:#051636;color:var(--mute);font-size:14px}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap">
-  <a href="#top" aria-label="AIZOYA"><img src="/wordmark.svg" alt="AIZOYA"></a>
-  <nav><a href="#try">Try it</a><a href="#how" class="hide-m">How it works</a><a href="#proof" class="hide-m">Results</a><a href="#pricing">Pricing</a></nav>
-</div></header>
-
-<main id="top">
+<header class="top"><div class="wrap"><a href="/" aria-label="AIZOYA"><img src="/wordmark.svg" alt="AIZOYA"></a><a class="btn primary" href="/app.html">Open the app</a></div></header>
+<main>
 <div class="hero"><div class="wrap">
-  <div class="kicker">Grant Audit Ready &middot; by AIZOYA</div>
+  <div class="kicker">Meta Muse Ember Hackathon &middot; Solo entry</div>
   <h1>Know before the auditor does.</h1>
-  <p class="lead">Upload your Single Audit package. Get a readiness report where every finding quotes the exact page it came from. Built for CPA firms and the grantees they serve.</p>
-  <div class="cta"><a class="btn primary" href="#try">Run a sample check</a><a class="btn ghost" href="#upload">Check your own PDFs</a></div>
-  <div class="badges">
-    <span class="badge">United States federal awards (2 CFR 200, Subpart F)</span>
-    <span class="badge">Synthetic demo data only</span>
-    <span class="badge">Powered by Meta Muse Ember</span>
-    <span class="badge">Readiness aid, not an audit opinion</span>
+  <p class="lead">Grant Audit Ready checks a Single Audit package for the problems an auditor would flag, before the auditor sees it. The model only reads and quotes. Plain code does the math and the rules. A finding with no verified page quote is dropped.</p>
+  <div class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" aria-selected="true" data-p="overview">Overview</button>
+    <button role="tab" aria-selected="false" data-p="judges">For judges</button>
+    <button role="tab" aria-selected="false" data-p="proof">Proof</button>
+    <button role="tab" aria-selected="false" data-p="app">Try the app</button>
+    <button role="tab" aria-selected="false" data-p="next">What is next</button>
   </div>
 </div></div>
 
-<section id="judges"><div class="wrap">
-  <div class="judge">
-    <div class="kicker">For judges: see it in 60 seconds</div>
-    <ol>
-      <li>Pick any sample below. Each one is a real recorded Muse Ember run on a synthetic package.</li>
-      <li>Click a finding. The exact quote is highlighted in the source page, and the code verified it before showing you.</li>
-      <li>Read the cost meter: what this report cost, and how many model calls it took.</li>
-      <li>Optional: upload your own synthetic PDFs to run the live model.</li>
-    </ol>
-  </div>
-</div></section>
-
-<section id="try" class="alt"><div class="wrap">
-  <div class="kicker">Live demo</div>
-  <h2>Pick a package. Watch it get checked.</h2>
-  <p class="sub">Four synthetic packages, four outcomes. The AI only reads and quotes. Plain code does the math, applies the rules and verifies every quote. A finding with no verified quote is dropped, and we count the drops.</p>
-  <div class="grid g4" id="scns" role="group" aria-label="Sample packages"></div>
-  <div id="result" aria-live="polite">
-    <div class="meter" id="meter"></div>
-    <div class="split">
-      <div><div class="warnbox" id="scanbox" style="display:none"></div>
-<div id="findings"></div><div class="no-print"><button class="btn ghost" onclick="window.print()" style="padding:10px 16px;font-size:14px">Print or save as PDF</button></div></div>
-      <div><div class="tabs" id="doctabs"></div><div id="pages"></div></div>
-    </div>
-    <p class="note" id="resnote"></p>
-  </div>
-</div></section>
-
-<section id="how"><div class="wrap">
-  <div class="kicker">How it works</div>
-  <h2>The AI reads. Code decides.</h2>
-  <div class="grid g3" style="margin-top:20px">
-    <div class="card"><div class="step">1</div><h3>Upload</h3><p>Awards schedule, financial statements and last year's findings, as PDFs.</p></div>
-    <div class="card"><div class="step">2</div><h3>Check</h3><p>The model pulls out numbers and exact quotes. Code adds them up, applies the rules and verifies each quote against the page.</p></div>
-    <div class="card"><div class="step">3</div><h3>Review</h3><p>Findings with page quotes and the cost of the run. Hand it to your CPA.</p></div>
-  </div>
-  <h2 style="margin-top:44px">Why it is different</h2>
-  <div class="grid g3" style="margin-top:16px">
-    <div class="card"><h3>No quote, no finding</h3><p>Anything we cannot prove from the page is dropped.</p></div>
-    <div class="card"><h3>Code decides</h3><p>Same answer every run, with automated tests behind it.</p></div>
-    <div class="card"><h3>Cost on every report</h3><p>In our tests on sample documents, under a tenth of a cent per report.</p></div>
-    <div class="card"><h3>Built for your CPA</h3><p>A review pack they can check, not a replacement for them.</p></div>
-    <div class="card"><h3>Ties out the package</h3><p>Awards schedule vs statements, thresholds, dates, prior findings.</p></div>
-    <div class="card"><h3>We show our misses</h3><p>Results by check type, including what we do not catch yet.</p></div>
-  </div>
-</div></section>
-
-<section id="upload" class="alt"><div class="wrap">
-  <div class="kicker">Live model</div>
-  <h2>Check your own PDFs.</h2>
-  <p class="sub">Runs Muse Ember live on the three documents you choose. Text PDFs are checked against their text layer. Scanned PDFs (up to 12 pages each) are read by the model twice, and a finding is kept only if both reads agree.</p>
-  <p class="warnbox"><b>Synthetic or practice documents only.</b> This public demo is not for real grantee records. Files are read in memory, never stored, and never used for training.</p>
+<div class="wrap">
+<section class="panel on" id="p-overview" role="tabpanel">
   <div class="grid g3">
-    <label class="drop" id="d-sefa"><b>Awards schedule (SEFA)</b><span id="n-sefa">Choose a PDF</span><input type="file" accept="application/pdf" data-slot="sefa"></label>
-    <label class="drop" id="d-statements"><b>Financial statements</b><span id="n-statements">Choose a PDF</span><input type="file" accept="application/pdf" data-slot="statements"></label>
-    <label class="drop" id="d-prior"><b>Prior-year findings</b><span id="n-prior">Choose a PDF</span><input type="file" accept="application/pdf" data-slot="prior"></label>
+    <div class="card"><h3>The problem</h3><p>Organizations that spend $1,000,000 or more of federal awards in a fiscal year (beginning on or after Oct 1, 2024) need a Single Audit. Small nonprofits and local governments often learn about tie-out mistakes, wrong award numbers and unanswered prior findings only when the auditor finds them.</p></div>
+    <div class="card"><h3>Who pays</h3><p>CPA firms that review packages for many clients, and the grantees themselves. Test prices: from $49 per package, and a firm plan in design. Not validated yet.</p></div>
+    <div class="card"><h3>What it does</h3><p>Upload the awards schedule, the financial statements and last year's findings. Get a readiness report with page quotes and the cost of the run. Text PDFs and scanned PDFs both work.</p></div>
   </div>
-  <div style="margin-top:16px"><button class="btn primary" id="run" disabled>Run live check</button></div>
-  <p class="sub" style="margin-top:14px;font-size:14px">No files handy? Synthetic samples (the awards total is off on purpose): scanned set <a href="/samples/scanned-sefa.pdf">awards schedule</a>, <a href="/samples/scanned-statements.pdf">statements</a>, <a href="/samples/scanned-prior.pdf">prior findings</a>; text set <a href="/samples/text-sefa.pdf">awards schedule</a>, <a href="/samples/text-statements.pdf">statements</a>, <a href="/samples/text-prior.pdf">prior findings</a>.</p>
-  <div class="err" id="err" role="alert"></div>
-</div></section>
+  <h2 style="margin-top:34px">How it works</h2>
+  <div class="grid g3">
+    <div class="card"><h3>1. The model reads</h3><p>Muse Ember pulls out numbers and the exact quotes they came from, using strict JSON output at temperature 0.</p></div>
+    <div class="card"><h3>2. Code decides</h3><p>Totals, dates, thresholds and award numbers are checked by deterministic code with automated tests. Same answer every run.</p></div>
+    <div class="card"><h3>3. Quotes are verified</h3><p>Every quote must appear on the page. If it does not, the finding is dropped and counted. Nothing unproven reaches the report.</p></div>
+  </div>
+  <p class="note" style="margin-top:22px">Readiness aid for the organization and its CPA. Not an audit opinion or legal advice. Demo data is synthetic. Please do not upload real grantee records to this public demo.</p>
+</section>
 
-<section id="scale"><div class="wrap">
-  <div class="kicker">At scale</div>
-  <h2>120 packages for about six cents.</h2>
-  <p class="sub" id="scalesub">Recorded live run of Muse Ember on generated synthetic packages with known injected errors.</p>
-  <div class="meter" id="scalemeter"></div>
+<section class="panel" id="p-judges" role="tabpanel">
+  <h2>What you are scoring, and where to look</h2>
   <div class="card" style="overflow-x:auto"><table>
-    <thead><tr><th>Check</th><th>Caught</th></tr></thead><tbody id="scalerows"></tbody></table></div>
-  <p class="sub" style="font-size:14px;margin-top:12px" id="scalenote"></p>
-</div></section>
-
-<section id="proof"><div class="wrap">
-  <div class="kicker">Measured results</div>
-  <h2>What we catch, and what we miss.</h2>
-  <p class="sub">Live Muse Ember, temperature 0, on generated documents with injected errors. These are not real audits.</p>
-  <div class="card" style="overflow-x:auto"><table>
-    <thead><tr><th>Check</th><th>Template A (5 packs)</th><th>Template B (5 packs, different wording)</th></tr></thead>
+    <thead><tr><th>Criterion</th><th>What to look at</th></tr></thead>
     <tbody>
-      <tr><td class="n">Arithmetic</td><td>5 / 5</td><td>5 / 5</td></tr>
-      <tr><td class="n">Award number</td><td>5 / 5</td><td>3 / 5 (reference list has only 3 programs; full federal list is next)</td></tr>
-      <tr><td class="n">Dates</td><td>5 / 5</td><td>5 / 5</td></tr>
-      <tr><td class="n">Audit threshold</td><td>5 / 5</td><td>5 / 5</td></tr>
-      <tr><td class="n">Prior finding unanswered</td><td>not measured</td><td>5 / 5</td></tr>
-      <tr><td class="n">False alarms on clean packs</td><td>0 / 10 runs</td><td>0 / 10 runs</td></tr>
+      <tr><td class="n">Impact (30%)</td><td>A real, recurring, costly problem: tens of thousands of Single Audits a year in the United States, and mistakes that are cheap to catch early and expensive to catch late. Cost per package is a fraction of a cent, so a CPA firm can check every client, not a sample. See the Proof tab.</td></tr>
+      <tr><td class="n">Use of Meta AI tooling (25%)</td><td>Muse Ember through the Responses API with strict JSON schemas, temperature 0 and minimal reasoning effort; prompt caching on a stable rules prefix; native PDF input for scanned pages, read twice with different instructions so that a finding needs both reads to agree; a per-run cost meter built from the usage fields.</td></tr>
+      <tr><td class="n">Technical depth (20%)</td><td>The model never decides. A deterministic ledger and verifier enforce "no verified quote, no finding", with automated tests including a model that lies about its quotes. We publish what we catch and what we miss.</td></tr>
+      <tr><td class="n">Demo (25%)</td><td>Open the app, pick a sample package and click a finding: the exact quote highlights on the source page. Or upload the synthetic PDFs (text or scanned) and run the live model.</td></tr>
     </tbody></table></div>
-  <p class="note">About $0.0004 per report. Template B was used to find and fix two logic bugs, so it is no longer fully held out. Real FAC documents are the next test.</p>
-</div></section>
-
-<section id="pricing" class="alt"><div class="wrap">
-  <div class="kicker">Pricing</div>
-  <h2>Simple to start.</h2>
   <div class="grid g2" style="margin-top:20px">
-    <div class="card"><h3>Grantees</h3><div class="price">From $49 <small>per package</small></div><p>Test price. We are confirming it with CPA firms and grantee finance teams before launch.</p></div>
-    <div class="card"><h3>CPA firms</h3><div class="price">Pilot <small>in design</small></div><p>A firm plan for review packs across many clients. Talk to us about the pilot: <a href="mailto:hello@aizoya.com">hello@aizoya.com</a></p></div>
+    <div class="card"><h3>Built during the hackathon</h3><p>Everything in the repository was written during the build window. The first commit is dated Nov 24, 2026, and the commit history is public.</p><p><a href="https://github.com/aizoya/grant-audit-ready">github.com/aizoya/grant-audit-ready</a></p></div>
+    <div class="card"><h3>Budget and proof of usage</h3><p>Every model call is metered against the $10 budget with a hard stop well below it, and each report shows what it cost. The token trace and Usage page screenshot accompany the submission.</p></div>
   </div>
-</div></section>
+  <h3 style="margin-top:24px">Honest limits</h3>
+  <ul class="t"><li>Synthetic documents only so far. Real filings are the next test.</li><li>Award-number checks are limited by our short program reference list (see Proof).</li><li>Scanned pages are read by the model, not by a text layer, so that mode is flagged as lower assurance.</li></ul>
+</section>
+
+<section class="panel" id="p-proof" role="tabpanel">
+  <h2>At scale, with the cost shown</h2>
+  <p id="psub" style="color:#cdd9f2">Recorded live run of Muse Ember on generated synthetic packages with known injected errors.</p>
+  <div class="meter" id="pm"></div>
+  <div class="card" style="overflow-x:auto"><table><thead><tr><th>Check</th><th>Caught</th></tr></thead><tbody id="pr"></tbody></table></div>
+  <p class="note" id="pn" style="margin-top:14px"></p>
+  <h3 style="margin-top:26px">Scanned documents</h3>
+  <p style="color:#cdd9f2">Three image-only synthetic PDFs: 9 model calls, about $0.0024, the same three findings as the text version, none dropped by the second read.</p>
+  <p><a class="btn ghost" href="/app.html#upload">Try the live upload</a></p>
+</section>
+
+<section class="panel" id="p-app" role="tabpanel">
+  <h2>Try the app</h2>
+  <p style="color:#cdd9f2">Pick a recorded sample, or upload the synthetic PDFs from the samples links. <a href="/app.html">Open it full screen</a>.</p>
+  <iframe src="about:blank" data-src="/app.html#try" title="Grant Audit Ready app" loading="lazy"></iframe>
+</section>
+
+<section class="panel" id="p-next" role="tabpanel">
+  <h2>What is next</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Available now</h3><p>Web app, installable on a phone or computer from the browser.</p></div>
+    <div class="card"><h3>Coming soon</h3><p>Native apps.</p><span class="pill">App Store: coming soon</span><span class="pill">Google Play: coming soon</span></div>
+    <div class="card"><h3>Real filings</h3><p>Testing on public Single Audit reports and the full federal program list.</p></div>
+    <div class="card"><h3>CPA firm pilot</h3><p>A firm plan for review packs across many clients, in design with CPA firms. Contact: hello@aizoya.com</p></div>
+  </div>
+</section>
+</div>
 </main>
-
-<footer><div class="wrap">
-  <img src="/wordmark.svg" alt="AIZOYA">
-  <p>Grant Audit Ready is a readiness aid for organizations and their CPAs. It is not an audit, an audit opinion or legal advice. Covers United States federal awards only for now. Demo data is synthetic.</p>
-  <p>Contact: <a href="mailto:hello@aizoya.com">hello@aizoya.com</a> &middot; &copy; AIZOYA</p>
-</div></footer>
-
+<footer><div class="wrap">AIZOYA &middot; Grant Audit Ready &middot; Built for the Meta Muse Ember Hackathon (Cerebral Valley). Readiness aid, not an audit opinion. hello@aizoya.com</div></footer>
 <script>
-const NAMES={sefa_total:"Awards schedule does not add up",sefa_vs_statements:"Awards total differs from statement revenue",threshold_applicability:"Audit-required statement conflicts with the threshold",aln_program_match:"Award number does not match the program",auditor_report_date:"Auditor report date looks wrong for this fiscal year",period_mismatch:"Awards schedule and statements cover different periods",prior_finding_no_followup:"Last year's finding has no follow-up"};
-const DOCS={sefa:"Awards schedule",statements:"Financial statements",prior:"Prior-year findings"};
 const $=s=>document.querySelector(s);
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-let RUNS=[],cur=null,curDoc="sefa";
-
-function money(x){return x<0.01?"$"+x.toFixed(5):"$"+x.toFixed(3)}
-function highlight(text,quotes){
-  let out=esc(text);
-  for(const q of quotes){
-    const flex=esc(q).trim().replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/\s+/g,"\\s+");
-    if(!flex) continue;
-    try{out=out.replace(new RegExp(flex,"i"),m=>"<mark>"+m+"</mark>");}catch(e){}
-  }
-  return out;
+function show(id){
+  document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.p===id)));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id==="p-"+id));
+  if(id==="app"){const f=document.querySelector("iframe");if(f.src==="about:blank"||f.getAttribute("src")==="about:blank")f.src=f.dataset.src;}
+  history.replaceState(null,"","#"+id);
 }
-function render(run,selected){
-  cur=run;
-  const rep=run.report;
-  $("#result").style.display="block";
-  const calls=run.calls||3;
-  $("#meter").innerHTML=
-   `<div class="m"><b>${money(run.run_cost_usd!=null?run.run_cost_usd:rep.cost_usd)}</b><span>Cost of this report</span></div>`+
-   `<div class="m"><b>${rep.findings.length}</b><span>Verified findings</span></div>`+
-   `<div class="m"><b>${rep.passed_checks.length}</b><span>Checks passed</span></div>`+
-   `<div class="m"><b>${rep.dropped_unverified}</b><span>Dropped (no verified quote)</span></div>`;
-  let h="";
-  if(!rep.findings.length){
-    h+=`<div class="okbox"><b>No findings.</b> Every check we run passed on this package.</div>`;
-  }
-  rep.findings.forEach((f,i)=>{
-    h+=`<div class="finding${i===selected?" sel":""}" data-i="${i}" tabindex="0" role="button">
-      <div class="sev">${f.severity==="likely"?"Likely issue":"Review"}</div>
-      <h4>${esc(NAMES[f.code]||f.code)}</h4>
-      <p class="why">${esc(f.message)}</p>`+
-      f.evidence.map(e=>`<div class="q"><small>${esc(DOCS[e.doc]||e.doc)} &middot; page ${e.page}</small>${esc(e.quote)}</div>`).join("")+`</div>`;
-  });
-  if(rep.passed_checks.length){h+=`<div class="passed">`+rep.passed_checks.map(p=>`<span>&#10003; ${esc(p.replace(/_/g," "))}</span>`).join("")+`</div>`;}
-  $("#findings").innerHTML=h;
-  document.querySelectorAll(".finding").forEach(el=>{
-    const go=()=>{const i=+el.dataset.i;const ev=rep.findings[i].evidence[0];if(ev)curDoc=ev.doc;render(cur,i);const m=document.querySelector("mark");if(m)m.scrollIntoView({block:"center",behavior:"smooth"});};
-    el.addEventListener("click",go);el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go();}});
-  });
-  const quotes={sefa:[],statements:[],prior:[]};
-  if(selected!=null&&rep.findings[selected]) rep.findings[selected].evidence.forEach(e=>quotes[e.doc]&&quotes[e.doc].push(e.quote));
-  $("#doctabs").innerHTML=Object.keys(DOCS).map(k=>`<button data-k="${k}" aria-pressed="${k===curDoc}">${DOCS[k]}</button>`).join("");
-  document.querySelectorAll("#doctabs button").forEach(b=>b.addEventListener("click",()=>{curDoc=b.dataset.k;render(cur,selected);}));
-  $("#pages").innerHTML=(run.docs[curDoc]||[]).map((t,i)=>`<div class="page"><span class="pn">${DOCS[curDoc]} &middot; page ${i+1}</span>${highlight(t,quotes[curDoc])}</div>`).join("");
-  const sc=document.getElementById("scanbox");
-  if(sc){sc.style.display=run.scanned&&run.scanned.length?"block":"none";
-    if(run.scanned&&run.scanned.length)sc.textContent=(run.assurance||"")+" Scanned: "+run.scanned.map(k=>DOCS[k]||k).join(", ")+". Dropped because the second read disagreed: "+((rep.unconfirmed_by_second_read)||0)+".";}
-  $("#resnote").textContent = run.live
-    ? "Live run on your upload with Muse Ember. Nothing was stored. Readiness aid only: not an audit opinion or legal advice."
-    : `Recorded live run of Muse Ember (muse-ember-1.0) on a synthetic package, ${run.recorded_at}. Readiness aid only: not an audit opinion or legal advice.`;
-}
-function pick(id){
-  const r=RUNS.find(x=>x.id===id);if(!r)return;
-  document.querySelectorAll(".scn").forEach(b=>b.setAttribute("aria-pressed",b.dataset.id===id));
-  curDoc="sefa";const first=r.report.findings.length?0:null;
-  if(first!=null)curDoc=r.report.findings[0].evidence[0]?r.report.findings[0].evidence[0].doc:"sefa";
-  render(r,first);
-  $("#result").scrollIntoView({behavior:"smooth",block:"start"});
-}
-fetch("/demo-runs.json").then(r=>r.json()).then(d=>{
-  RUNS=d;
-  $("#scns").innerHTML=d.map(r=>`<button class="card scn" data-id="${r.id}" aria-pressed="false"><span class="tag ${r.report.findings.length?"issue":"clean"}">${r.report.findings.length?"Issue found":"Clean"}</span><h3>${esc(r.title)}</h3><p>${esc(r.blurb)}</p></button>`).join("");
-  document.querySelectorAll(".scn").forEach(b=>b.addEventListener("click",()=>pick(b.dataset.id)));
-}).catch(()=>{$("#scns").innerHTML='<p class="note">Sample runs could not load. Reload the page.</p>';});
-
-/* upload */
-const files={};
-function b64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(",")[1]);r.onerror=rej;r.readAsDataURL(file);});}
-document.querySelectorAll(".drop input").forEach(inp=>inp.addEventListener("change",()=>{
-  const s=inp.dataset.slot,f=inp.files[0];
-  if(f){files[s]=f;$("#n-"+s).textContent=f.name;$("#d-"+s).classList.add("has");}
-  $("#run").disabled=!(files.sefa&&files.statements&&files.prior);
-}));
-$("#run").addEventListener("click",async()=>{
-  const btn=$("#run"),err=$("#err");err.style.display="none";btn.disabled=true;btn.textContent="Checking…";
-  try{
-    const docs={};for(const s of ["sefa","statements","prior"])docs[s]=await b64(files[s]);
-    const r=await fetch("/api/check",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({docs})});
-    const j=await r.json();
-    if(!r.ok||!j.ok)throw new Error(j.message||"The check could not run.");
-    curDoc=j.report.findings.length&&j.report.findings[0].evidence[0]?j.report.findings[0].evidence[0].doc:"sefa";
-    render({docs:j.docs,report:j.report,calls:j.calls,live:true,scanned:j.scanned,assurance:j.assurance},j.report.findings.length?0:null);
-    document.querySelectorAll(".scn").forEach(b=>b.setAttribute("aria-pressed","false"));
-    $("#result").scrollIntoView({behavior:"smooth"});
-  }catch(e){err.textContent=e.message;err.style.display="block";}
-  btn.disabled=false;btn.textContent="Run live check";
-});
-
-/* batch run */
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.p)));
+const h=location.hash.slice(1); if(["overview","judges","proof","app","next"].includes(h))show(h);
 fetch("/batch-run.json").then(r=>r.ok?r.json():null).then(b=>{
-  if(!b){document.getElementById("scale").style.display="none";return;}
+  if(!b)return;
   const NM={arithmetic:"Arithmetic",award_id:"Award number",date:"Dates",threshold:"Audit threshold",prior_finding_omitted:"Prior finding unanswered"};
-  document.getElementById("scalemeter").innerHTML=
-   `<div class="m"><b>${b.packages}</b><span>Packages checked</span></div>`+
-   `<div class="m"><b>$${b.total_cost_usd.toFixed(3)}</b><span>Total cost</span></div>`+
-   `<div class="m"><b>$${b.cost_per_package_usd.toFixed(4)}</b><span>Per package</span></div>`+
-   `<div class="m"><b>${b.packages_per_minute}</b><span>Packages per minute</span></div>`+
-   `<div class="m"><b>${b.false_alarms.flagged} of ${b.false_alarms.packages}</b><span>False alarms on clean packages</span></div>`;
-  document.getElementById("scalerows").innerHTML=Object.keys(b.recall).map(k=>`<tr><td class="n">${NM[k]||k}</td><td>${b.recall[k].found} / ${b.recall[k].of}${k==="award_id"?" (our reference list has only 3 programs; the full federal list is next)":""}</td></tr>`).join("");
-  document.getElementById("scalenote").textContent=`Recorded ${b.recorded_at}: ${b.calls} calls to ${b.model}, ${b.errors} errors, 3 runs of 40 packages. Packages are generated with errors injected (template B wording) plus clean packages. Synthetic documents, not real audits.`;
+  $("#pm").innerHTML=`<div class="m"><b>${b.packages}</b><span>Packages checked</span></div><div class="m"><b>$${b.total_cost_usd.toFixed(3)}</b><span>Total cost</span></div><div class="m"><b>$${b.cost_per_package_usd.toFixed(4)}</b><span>Per package</span></div><div class="m"><b>${b.packages_per_minute}</b><span>Packages per minute</span></div><div class="m"><b>${b.false_alarms.flagged} of ${b.false_alarms.packages}</b><span>False alarms, clean packages</span></div>`;
+  $("#pr").innerHTML=Object.keys(b.recall).map(k=>`<tr><td class="n">${NM[k]||k}</td><td>${b.recall[k].found} / ${b.recall[k].of}${k==="award_id"?" (our reference list has only 3 programs; the full federal list is next)":""}</td></tr>`).join("");
+  $("#pn").textContent=`Recorded ${b.recorded_at}: ${b.calls} calls to ${b.model}, ${b.errors} errors, 3 runs of 40 packages. Errors are injected into generated packages (template B wording) plus clean packages. Synthetic documents, not real audits.`;
 }).catch(()=>{});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));}
 </script>

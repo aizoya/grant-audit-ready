@@ -1,6 +1,6 @@
 // Offline shell for the installed app. The API is never cached; documents never touch the cache.
-const CACHE = "gar-shell-v1";
-const SHELL = ["/", "/manifest.webmanifest", "/wordmark.svg", "/demo-runs.json", "/icon-192.png"];
+const CACHE = "gar-shell-v2";
+const SHELL = ["/", "/app.html", "/batch-run.json", "/manifest.webmanifest", "/wordmark.svg", "/demo-runs.json", "/icon-192.png"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", (e) => {
   e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim()));

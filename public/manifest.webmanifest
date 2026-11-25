@@ -2,7 +2,7 @@
   "name": "Grant Audit Ready by AIZOYA",
   "short_name": "Audit Ready",
   "description": "Check a Single Audit package before the auditor does. Every finding quotes the page it came from.",
-  "start_url": "/",
+  "start_url": "/app.html",
   "scope": "/",
   "display": "standalone",
   "background_color": "#071C45",
