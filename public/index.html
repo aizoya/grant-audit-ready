@@ -191,6 +191,16 @@ footer img{height:26px;display:block;margin-bottom:12px}
   <div class="err" id="err" role="alert"></div>
 </div></section>
 
+<section id="scale"><div class="wrap">
+  <div class="kicker">At scale</div>
+  <h2>120 packages for about six cents.</h2>
+  <p class="sub" id="scalesub">Recorded live run of Muse Ember on generated synthetic packages with known injected errors.</p>
+  <div class="meter" id="scalemeter"></div>
+  <div class="card" style="overflow-x:auto"><table>
+    <thead><tr><th>Check</th><th>Caught</th></tr></thead><tbody id="scalerows"></tbody></table></div>
+  <p class="sub" style="font-size:14px;margin-top:12px" id="scalenote"></p>
+</div></section>
+
 <section id="proof"><div class="wrap">
   <div class="kicker">Measured results</div>
   <h2>What we catch, and what we miss.</h2>
@@ -316,6 +326,20 @@ $("#run").addEventListener("click",async()=>{
   }catch(e){err.textContent=e.message;err.style.display="block";}
   btn.disabled=false;btn.textContent="Run live check";
 });
+
+/* batch run */
+fetch("/batch-run.json").then(r=>r.ok?r.json():null).then(b=>{
+  if(!b){document.getElementById("scale").style.display="none";return;}
+  const NM={arithmetic:"Arithmetic",award_id:"Award number",date:"Dates",threshold:"Audit threshold",prior_finding_omitted:"Prior finding unanswered"};
+  document.getElementById("scalemeter").innerHTML=
+   `<div class="m"><b>${b.packages}</b><span>Packages checked</span></div>`+
+   `<div class="m"><b>$${b.total_cost_usd.toFixed(3)}</b><span>Total cost</span></div>`+
+   `<div class="m"><b>$${b.cost_per_package_usd.toFixed(4)}</b><span>Per package</span></div>`+
+   `<div class="m"><b>${b.packages_per_minute}</b><span>Packages per minute</span></div>`+
+   `<div class="m"><b>${b.false_alarms.flagged} of ${b.false_alarms.packages}</b><span>False alarms on clean packages</span></div>`;
+  document.getElementById("scalerows").innerHTML=Object.keys(b.recall).map(k=>`<tr><td class="n">${NM[k]||k}</td><td>${b.recall[k].found} / ${b.recall[k].of}${k==="award_id"?" (our reference list has only 3 programs; the full federal list is next)":""}</td></tr>`).join("");
+  document.getElementById("scalenote").textContent=`Recorded ${b.recorded_at}: ${b.calls} calls to ${b.model}, ${b.errors} errors, 3 runs of 40 packages. Packages are generated with errors injected (template B wording) plus clean packages. Synthetic documents, not real audits.`;
+}).catch(()=>{});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));}
 </script>
 </body>
