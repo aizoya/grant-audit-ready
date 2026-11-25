@@ -115,7 +115,7 @@ def _same_program(listed: str, schedule_name: str) -> bool:
     ta, tb = _tokens(a), _tokens(b)
     if not ta or not tb:
         return True  # not enough words to judge: never raise a finding on that
-    return len(ta & tb) / min(len(ta), len(tb)) >= 0.5
+    return len(ta & tb) / min(len(ta), len(tb)) > 0.5
 
 
 def check_aln_program(program: str, aln: str, known: dict = None) -> Check:
