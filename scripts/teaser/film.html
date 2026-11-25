@@ -45,15 +45,15 @@ mark{background:var(--gold);color:var(--ink);padding:0 3px;transition:background
 <div class=cap id=cap></div>
 <script>
 const T=[
-[0,6,"s1","Organizations that spend federal grant money face a Single Audit. One wrong total, and the auditor finds it first."],
-[6,16,"s2","Grant Audit Ready checks your package before the auditor does. Upload your awards schedule, statements and last year's findings. Scanned PDFs work too."],
-[16,30,"s3","The AI only reads and quotes. Plain code does the math and applies the rules. If a finding cannot point to the exact page it came from, we drop it."],
-[30,44,"s4","Every report shows what it cost. In our recorded run, 120 synthetic packages cost about six cents. And we show what we miss: award numbers, nine of eighteen."],
-[44,52,"s5","Grant Audit Ready, by AIZOYA. Built on Meta Muse Ember. Try it now."]];
+[0,8,"s1","Organizations that spend federal grant money face a Single Audit. One wrong total, and the auditor finds it first."],
+[8,19.5,"s2","Grant Audit Ready checks your package before the auditor does. Upload your awards schedule, statements and last year's findings. Scanned PDFs work too."],
+[19.5,33.5,"s3","The AI only reads and quotes. Plain code does the math and applies the rules. If a finding cannot point to the exact page it came from, we drop it."],
+[33.5,41.5,"s4","Every report shows what it cost. In our recorded run, 120 synthetic packages cost about six cents. And we show what we miss: award numbers, nine of eighteen."],
+[41.5,48,"s5","Grant Audit Ready, by AIZOYA. Built on Meta Muse Ember. Try it now."]];
 const $=i=>document.getElementById(i);
 window.start=()=>{T.forEach(([a,b,s,c])=>{setTimeout(()=>{document.querySelectorAll('.sc').forEach(e=>e.classList.remove('on'));$(s).classList.add('on');$('cap').textContent=c},a*1000)});
-[7.5,9,10.5].forEach((t,i)=>setTimeout(()=>$('d'+(i+1)).classList.add('in'),t*1000));
-setTimeout(()=>$('q').style.background='var(--gold)',22000);$('q').style.background='transparent';
-setTimeout(()=>window.done=true,52500)};
+[9.5,12,15].forEach((t,i)=>setTimeout(()=>$('d'+(i+1)).classList.add('in'),t*1000));
+setTimeout(()=>$('q').style.background='var(--gold)',27000);$('q').style.background='transparent';
+setTimeout(()=>window.done=true,48500)};
 window.T=T;
 </script>

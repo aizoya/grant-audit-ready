@@ -13,5 +13,5 @@ Every number below comes from `public/batch-run.json` and the live proof table. 
 Notes
 - Never show real grantee data. Use the synthetic samples only.
 - The 3-minute judging demo video is a separate, longer file. This teaser is for the front page.
-- Final: no presenter (HeyGen quota used). Captioned screen film, scripts/teaser/film.html + record.py. Voiceover optional later.
+- Final: no presenter (HeyGen quota used). 48 s captioned screen film with an ElevenLabs voiceover (voice Olive Lark, one take, 640 credits); scripts/teaser/film.html + record.py.
 - Burn in captions so it works muted on a phone.
