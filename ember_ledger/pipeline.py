@@ -75,6 +75,30 @@ def run(adapter, ledger: Ledger, docs: dict[str, list[str]], effort: str = "mini
             else:
                 dropped += 1
 
+    # 3b. ALN vs program name (reference list)
+    for r in sefa["rows"]:
+        c = checks.check_aln_program(r["program"], r["assistance_listing"])
+        if c.passed:
+            passed.append(f"aln_{r['assistance_listing']}")
+        else:
+            ev = []
+            if _ev("sefa", docs["sefa"], r["quote"], ev):
+                findings.append(ReportFinding("aln_program_match", "review", c.detail, ev))
+            else:
+                dropped += 1
+
+    # 3c. Auditor report date vs fiscal year
+    if fs.get("auditor_report_date") and sefa.get("fiscal_year_end"):
+        c = checks.check_report_date(date.fromisoformat(sefa["fiscal_year_end"]), date.fromisoformat(fs["auditor_report_date"]))
+        if c.passed:
+            passed.append(c.name)
+        else:
+            ev = []
+            if _ev("statements", docs["statements"], fs.get("auditor_report_quote", ""), ev):
+                findings.append(ReportFinding("auditor_report_date", "review", c.detail, ev))
+            else:
+                dropped += 1
+
     # 4. Prior-year findings with no response text anywhere in this year's pack
     pack = " ".join(" ".join(p) for p in docs.values()).lower()
     for f in prior["findings"]:

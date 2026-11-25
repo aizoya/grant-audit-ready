@@ -73,3 +73,22 @@ def check_sefa_vs_statements(sefa_total: int, fs_federal_revenue: int, tolerance
         abs(sefa_total - fs_federal_revenue) <= tolerance,
         f"SEFA ${sefa_total:,} vs financial statement federal revenue ${fs_federal_revenue:,} (differences can be legitimate timing/accrual items: route to human)",
     )
+
+
+# Tiny illustrative lookup (synthetic demo). Real data: SAM.gov Assistance Listings, loaded from a file.
+KNOWN_ALN = {"93.600": "head start", "93.569": "community services block grant", "17.259": "youth workforce"}
+
+
+def check_aln_program(program: str, aln: str) -> Check:
+    name = KNOWN_ALN.get(aln)
+    if name is None:
+        return Check("aln_program_match", False, f"ALN {aln} for '{program}' is not in the reference list: verify the number")
+    ok = name in program.lower()
+    return Check("aln_program_match", ok, f"ALN {aln} is listed as '{name}'; schedule says '{program}'")
+
+
+def check_report_date(fy_end: date, report_date: date) -> Check:
+    due = add_months(fy_end, 9)
+    ok = fy_end < report_date <= due
+    return Check("auditor_report_date", ok,
+                 f"auditor report dated {report_date.isoformat()}; fiscal year ended {fy_end.isoformat()}; nine-month mark {due.isoformat()}")

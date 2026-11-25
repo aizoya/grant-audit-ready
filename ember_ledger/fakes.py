@@ -44,7 +44,13 @@ class RegexAdapter:
 
     def _extract_statements(self, doc):
         m = re.search(r"Government grants - federal revenue \$([\d,]+)", doc)
-        return {"federal_revenue": int(m.group(1).replace(",", "")), "federal_revenue_quote": m.group(0)}
+        out = {"federal_revenue": int(m.group(1).replace(",", "")), "federal_revenue_quote": m.group(0)}
+        d = re.search(r"dated (\w+) (\d{1,2}), (\d{4})", doc)
+        if d:
+            from datetime import datetime
+            out["auditor_report_date"] = datetime.strptime(" ".join(d.groups()), "%B %d %Y").date().isoformat()
+            out["auditor_report_quote"] = d.group(0)
+        return out
 
     def _extract_prior(self, doc):
         f = [{"reference": m.group(1), "summary": m.group(2), "quote": m.group(0)}

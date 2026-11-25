@@ -40,6 +40,7 @@ STATEMENTS_SCHEMA = {
         "federal_revenue": {"type": "integer"},
         "federal_revenue_quote": QUOTE,
         "auditor_report_date": {"type": "string", "description": "YYYY-MM-DD or empty"},
+        "auditor_report_quote": QUOTE,
     },
     "required": ["federal_revenue", "federal_revenue_quote"],
     "additionalProperties": False,
