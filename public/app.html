@@ -108,6 +108,57 @@ footer img{height:26px;display:block;margin-bottom:12px}
 .judge li{margin:6px 0}
 @media print{header.top,.hero,section:not(#try),footer,.scn,#upload,.no-print{display:none!important}body{background:#fff;color:#000}#result{display:block!important}.card,.finding,.meter .m{background:#fff!important;color:#000!important;border-color:#999!important}.q{background:#f2f2f2;color:#000}.finding h4,.meter .m b{color:#000}}
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600&display=swap" rel="stylesheet">
+<style id="ledger-theme">
+:root{--paper:#F2F5EF;--sheet:#FBFCFA;--ink:#0B1F44;--ink2:#123069;--mute:#4C5B78;--rule:#C9D3C5;--gold:#D7B06A;--gold-soft:#F3E2B8;--gold-ink:#7A5A1C;--brick:#9E3B2C;--blue:#087CF0;--navy:#F2F5EF;--navy2:#FBFCFA;--cyan:#0B1F44;--line:#C9D3C5;--warn:#7A5A1C;--ok:#2E6B4F}
+body{background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif}
+h1,h2,h3,.step,.price,.meter .m b{font-family:Newsreader,Georgia,serif;font-weight:500;color:var(--ink)}
+a{color:var(--ink);text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+header.top{background:rgba(242,245,239,.92);border-bottom:1px solid var(--rule)}
+header.top img{filter:brightness(0) saturate(100%) invert(10%) sepia(40%) saturate(2400%) hue-rotate(205deg)}
+nav a{color:var(--ink)}nav a:hover{color:var(--gold-ink)}
+.hero{background:var(--paper);border-bottom:1px solid var(--rule)}
+.kicker{color:var(--gold-ink)}
+h1{color:var(--ink)}
+.lead{color:#24365C}
+.btn{border-radius:999px}
+.btn.primary{background:var(--ink);color:var(--paper)}.btn.primary:hover{background:var(--ink2)}
+.btn.ghost{color:var(--ink);border-color:var(--ink)}.btn.ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.badge{background:transparent;border:1px solid var(--rule);color:var(--mute)}
+section.alt{background:#E9EEE5;border-color:var(--rule)}
+.sub{color:var(--mute)}
+.card{background:var(--sheet);border:1px solid var(--rule);border-radius:3px}
+.card h3{color:var(--ink)}.card p{color:#24365C}
+.step{color:var(--gold)}
+.scn:hover{border-color:var(--ink)}.scn[aria-pressed=true]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.tag.clean{background:#E1EEE6;color:#2E6B4F}.tag.issue{background:var(--gold-soft);color:var(--gold-ink)}
+.meter .m{background:var(--sheet);border:1px solid var(--rule);border-radius:3px}
+.meter .m b{color:var(--ink)}.meter .m span{color:var(--mute)}
+.finding{background:var(--sheet);border-color:var(--rule);border-left-color:var(--gold);border-radius:3px}
+.finding.sel{border-color:var(--ink);border-left-color:var(--gold)}
+.finding h4{color:var(--ink);font-family:Newsreader,Georgia,serif;font-size:19px;font-weight:600}
+.finding .why{color:#24365C}
+.sev{color:var(--brick)}
+.q{background:#EEF2EA;border:1px solid var(--rule);color:var(--ink)}
+.q small{color:var(--gold-ink)}
+.okbox{background:#E1EEE6;border-color:#9CC4AE;color:#1F4A36}
+.passed span{border-color:#9CC4AE;color:#2E6B4F}
+.tabs button{border-color:var(--rule);color:var(--ink)}
+.tabs button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.page{background:var(--sheet);border:1px solid var(--rule);color:var(--ink)}
+.page .pn{color:var(--mute)}
+mark{background:var(--gold-soft);color:var(--ink);outline:0;border-bottom:2px solid var(--gold)}
+.note{color:var(--mute)}
+.drop{background:var(--sheet);border-color:#9CAA98}.drop b{color:var(--ink)}.drop span{color:var(--mute)}.drop.has{border-color:#2E6B4F}
+.warnbox{background:rgba(215,176,106,.18);border-color:var(--gold);color:#4A3710}
+.err{background:#F7E4E0;border-color:var(--brick);color:#6B2418}
+th{color:var(--gold-ink)}td.n{color:var(--ink)}td{color:#24365C}
+.price{color:var(--ink)}.price small{color:var(--mute)}
+footer{background:var(--ink);color:#C8D3EA;border-top-color:var(--gold)}footer a{color:#fff}
+.judge{background:rgba(215,176,106,.16);border-color:var(--gold)}.judge ol{color:var(--ink)}
+@media print{body{background:#fff}}
+</style>
 </head>
 <body>
 <header class="top"><div class="wrap">
