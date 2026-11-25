@@ -75,20 +75,61 @@ def check_sefa_vs_statements(sefa_total: int, fs_federal_revenue: int, tolerance
     )
 
 
-# Tiny illustrative lookup (synthetic demo). Real data: SAM.gov Assistance Listings, loaded from a file.
-KNOWN_ALN = {"93.600": "head start", "93.569": "community services block grant", "17.259": "youth workforce"}
+# Reference list of federal programs (Assistance Listing number -> official title).
+# Built-in default is a three-program demo list. If data/aln.csv exists (columns: number,title) it replaces the
+# default; that file is meant to come from the official SAM.gov Assistance Listings and carries a source line
+# in data/aln.SOURCE.txt. We never claim coverage the file does not have.
+import csv
+import os
+import re
+
+_DEFAULT_ALN = {"93.600": "head start", "93.569": "community services block grant", "17.259": "youth workforce"}
+_STOP = {"the", "of", "and", "for", "to", "a", "an", "in", "program", "programs", "grant", "grants", "services", "state", "states", "federal"}
 
 
-def check_aln_program(program: str, aln: str) -> Check:
-    name = KNOWN_ALN.get(aln)
+def _tokens(text: str) -> set:
+    return {t for t in re.findall(r"[a-z0-9]+", text.lower()) if t not in _STOP and len(t) > 1}
+
+
+def load_aln(path: str = None) -> dict:
+    path = path or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "aln.csv")
+    if not os.path.exists(path):
+        return dict(_DEFAULT_ALN)
+    out = {}
+    with open(path, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            num, title = (row.get("number") or "").strip(), (row.get("title") or "").strip()
+            if re.fullmatch(r"\d{2}\.\d{3}", num) and title:
+                out[num] = title.lower()
+    return out or dict(_DEFAULT_ALN)
+
+
+KNOWN_ALN = load_aln()
+
+
+def _same_program(listed: str, schedule_name: str) -> bool:
+    """Lenient on purpose: schedules abbreviate. Match if one contains the other, or most distinctive words overlap."""
+    a, b = listed.lower(), schedule_name.lower()
+    if a in b or b in a:
+        return True
+    ta, tb = _tokens(a), _tokens(b)
+    if not ta or not tb:
+        return True  # not enough words to judge: never raise a finding on that
+    return len(ta & tb) / min(len(ta), len(tb)) >= 0.5
+
+
+def check_aln_program(program: str, aln: str, known: dict = None) -> Check:
+    known = KNOWN_ALN if known is None else known
+    name = known.get(aln)
     if name is None:
-        # The demo list is tiny. A number we do not know is a finding only if the program NAME is one we do know
+        # A number we do not know is a finding only if the program NAME matches a listed program under another number
         # (then the number is wrong for it). Otherwise it is "not checked", never a finding.
-        for known_aln, known_name in KNOWN_ALN.items():
-            if known_name in program.lower():
-                return Check("aln_program_match", False, f"'{program}' is listed under ALN {known_aln}; schedule says {aln}")
+        if len(known) <= 5:
+            for known_aln, known_name in known.items():
+                if known_name in program.lower():
+                    return Check("aln_program_match", False, f"'{program}' is listed under ALN {known_aln}; schedule says {aln}")
         return Check("aln_program_match", True, f"ALN {aln} and '{program}' are not in the reference list: not checked")
-    ok = name in program.lower()
+    ok = _same_program(name, program)
     return Check("aln_program_match", ok, f"ALN {aln} is listed as '{name}'; schedule says '{program}'")
 
 
