@@ -26,3 +26,14 @@ def read_two_ways(adapter, raw: bytes, n_pages: int, label: str) -> tuple[list[s
     a = adapter.read_pdf(f"read_{label}_a", raw, n_pages, "a")
     b = adapter.read_pdf(f"read_{label}_b", raw, n_pages, "b")
     return a, b
+
+
+def read_all(adapter, jobs: dict[str, tuple[bytes, int]]) -> tuple[dict[str, list[str]], dict[str, list[str]]]:
+    """jobs: slot -> (raw pdf bytes, page count). Runs every read (two per slot) at the same time."""
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=max(1, 2 * len(jobs))) as ex:
+        futs = {(slot, v): ex.submit(adapter.read_pdf, f"read_{slot}_{v}", raw, n, v)
+                for slot, (raw, n) in jobs.items() for v in ("a", "b")}
+        a = {slot: futs[(slot, "a")].result() for slot in jobs}
+        b = {slot: futs[(slot, "b")].result() for slot in jobs}
+    return a, b

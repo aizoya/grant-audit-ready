@@ -14,7 +14,7 @@ from .adapter import LiveAdapter
 from .ingest import looks_scanned, pdf_pages_from_bytes
 from .ledger import BudgetExceeded, Ledger
 from .pipeline import run
-from .scanned import ASSURANCE, read_two_ways
+from .scanned import ASSURANCE, read_all
 
 SLOTS = ("sefa", "statements", "prior")
 MAX_FILE_BYTES = 1_500_000
@@ -95,9 +95,8 @@ def handle_check(payload: dict, env: dict | None = None, ip: str = "unknown", ad
     confirm = None
     try:
         if scanned_slots:
-            confirm = {}
-            for s_ in scanned_slots:
-                docs[s_], confirm[s_] = read_two_ways(adapter, loaded[s_][1], len(loaded[s_][0]), s_)
+            first, confirm = read_all(adapter, {s_: (loaded[s_][1], len(loaded[s_][0])) for s_ in scanned_slots})
+            docs.update(first)
         report = run(adapter, ledger, docs, confirm=confirm)
     except BudgetExceeded:
         return 429, {"ok": False, "error": "budget", "message": "This pack is too large for the public demo cost cap."}

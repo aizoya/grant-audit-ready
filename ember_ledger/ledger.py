@@ -6,6 +6,7 @@ UNVERIFIED until the first live probe: whether reasoning tokens are included in
 """
 from __future__ import annotations
 
+import threading
 from dataclasses import dataclass, field
 
 # USD per 1M tokens. Tier is chosen by TOTAL input tokens (cached included);
@@ -74,6 +75,7 @@ class Ledger:
     calls: int = 0
     by_label: dict = field(default_factory=dict)
     verified_results: int = 0
+    _lock: threading.Lock = field(default_factory=threading.Lock, repr=False, compare=False)
 
     def preflight(self, input_tokens: int, max_output_tokens: int) -> float:
         worst = worst_case_usd(input_tokens, max_output_tokens)
@@ -86,9 +88,10 @@ class Ledger:
 
     def record(self, label: str, usage: Usage) -> float:
         c = cost_usd(usage)
-        self.spent += c
-        self.calls += 1
-        self.by_label[label] = self.by_label.get(label, 0.0) + c
+        with self._lock:
+            self.spent += c
+            self.calls += 1
+            self.by_label[label] = self.by_label.get(label, 0.0) + c
         return c
 
     def mark_verified(self, n: int = 1) -> None:
