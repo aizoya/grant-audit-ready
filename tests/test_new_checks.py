@@ -22,3 +22,10 @@ def test_pdf_roundtrip(tmp_path):
     c = canvas.Canvas(str(p)); c.drawString(72, 720, "Total expenditures of federal awards $1,240,000"); c.showPage(); c.save()
     pages = pdf_pages(p)
     assert "1,240,000" in pages[0] and not looks_scanned(pages)
+
+
+def test_period_match():
+    from datetime import date
+    from ember_ledger.checks import check_period_match
+    assert check_period_match(date(2026, 6, 30), date(2026, 6, 30)).passed
+    assert not check_period_match(date(2026, 6, 30), date(2025, 6, 30)).passed

@@ -92,3 +92,8 @@ def check_report_date(fy_end: date, report_date: date) -> Check:
     ok = fy_end < report_date <= due
     return Check("auditor_report_date", ok,
                  f"auditor report dated {report_date.isoformat()}; fiscal year ended {fy_end.isoformat()}; nine-month mark {due.isoformat()}")
+
+
+def check_period_match(sefa_end: date, statements_end: date) -> Check:
+    ok = sefa_end == statements_end
+    return Check("period_match", ok, f"SEFA fiscal year ends {sefa_end.isoformat()}; financial statements cover year ended {statements_end.isoformat()}")

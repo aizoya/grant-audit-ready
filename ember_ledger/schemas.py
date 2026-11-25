@@ -41,6 +41,8 @@ STATEMENTS_SCHEMA = {
         "federal_revenue_quote": QUOTE,
         "auditor_report_date": {"type": "string", "description": "YYYY-MM-DD or empty"},
         "auditor_report_quote": QUOTE,
+        "statements_year_end": {"type": "string", "description": "Fiscal year end the financial statements cover, YYYY-MM-DD or empty"},
+        "statements_year_end_quote": QUOTE,
     },
     "required": ["federal_revenue", "federal_revenue_quote"],
     "additionalProperties": False,

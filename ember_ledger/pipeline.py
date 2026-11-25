@@ -99,6 +99,18 @@ def run(adapter, ledger: Ledger, docs: dict[str, list[str]], effort: str = "mini
             else:
                 dropped += 1
 
+    # 3d. SEFA period vs financial statements period
+    if fs.get("statements_year_end") and sefa.get("fiscal_year_end"):
+        c = checks.check_period_match(date.fromisoformat(sefa["fiscal_year_end"]), date.fromisoformat(fs["statements_year_end"]))
+        if c.passed:
+            passed.append(c.name)
+        else:
+            ev = []
+            if _ev("statements", docs["statements"], fs.get("statements_year_end_quote", ""), ev):
+                findings.append(ReportFinding("period_mismatch", "review", c.detail, ev))
+            else:
+                dropped += 1
+
     # 4. Prior-year findings with no response text anywhere in this year's pack
     pack = " ".join(" ".join(p) for p in docs.values()).lower()
     for f in prior["findings"]:
