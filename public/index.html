@@ -176,7 +176,7 @@ Total federal awards expended: $1,284,300</pre>
     <div><h3>Budget and proof of usage</h3><p>Every model call is metered against the $10 budget with a hard stop well below it, and each report shows what it cost. The token trace and Usage page screenshot accompany the submission.</p></div>
   </div>
   <h3 style="margin-top:36px">Honest limits</h3>
-  <ul class="t"><li>Synthetic documents only so far. Real filings are the next test.</li><li>Award-number checks are limited by our short program reference list (see Proof).</li><li>Scanned pages are read by the model, not by a text layer, so that mode is flagged as lower assurance.</li></ul>
+  <ul class="t"><li>Synthetic documents only so far. Real filings are the next test.</li><li>Award-number checks are limited by our short program reference list (see Proof).</li><li>Scanned pages are read by the model, not by a text layer, so that mode is flagged as lower assurance. We measured it on synthetic scans (see Proof): every number was read correctly, and at the roughest quality the second read disagreed on one figure, so that finding was dropped instead of shown. Real scans, handwriting and stamps are untested.</li></ul>
 </section>
 
 <section class="panel" id="p-proof" role="tabpanel">
@@ -186,8 +186,17 @@ Total federal awards expended: $1,284,300</pre>
   <h3 style="margin-top:30px">What it caught</h3>
   <ul class="ledger" id="pr"></ul>
   <p class="aside" id="pn"></p>
-  <h3 style="margin-top:34px">Scanned documents</h3>
-  <p>Three image-only synthetic PDFs: 9 model calls, about $0.0024, the same three findings as the text version, none dropped by the second read.</p>
+  <h3 style="margin-top:34px">Scanned documents, three quality levels</h3>
+  <p>The same three synthetic documents as image-only PDFs, from a clean scan to a rough, low-resolution one. Each level was run twice live. The text version of the same documents has three findings.</p>
+  <ul class="ledger">
+    <li><span class="k">Light scan: numbers read correctly</span><span class="dots" aria-hidden="true"></span><span class="v">16 / 16</span></li>
+    <li><span class="k">Light scan: findings kept</span><span class="dots" aria-hidden="true"></span><span class="v">3 of 3</span></li>
+    <li><span class="k">Medium scan: numbers read correctly</span><span class="dots" aria-hidden="true"></span><span class="v">16 / 16</span></li>
+    <li><span class="k">Medium scan: findings kept</span><span class="dots" aria-hidden="true"></span><span class="v">3 of 3</span></li>
+    <li><span class="k">Rough scan: numbers read correctly</span><span class="dots" aria-hidden="true"></span><span class="v">16 / 16</span></li>
+    <li><span class="k">Rough scan: findings kept</span><span class="dots" aria-hidden="true"></span><span class="v">2 of 3</span></li>
+  </ul>
+  <p class="aside">At the rough level the second read disagreed on one figure, so the finding that depended on it was dropped and counted instead of shown. A missed finding is the price of never showing an unproven one. One document set only: this shows the safeguard works, not a general accuracy rate. Cost was about $0.001 to $0.0024 per run.</p>
   <p><a class="btn ghost" href="/app.html#upload">Try the live upload</a></p>
 </section>
 

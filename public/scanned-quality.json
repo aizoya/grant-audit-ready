@@ -1,0 +1,6 @@
+{"model":"muse-ember-1.0","recorded_at":"2026-11-25","what":"Synthetic scanned PDFs (3 documents, 1 page each) at three degradation levels, read live through /api/check. Read A text compared with the known source text.","runs_per_level":2,"numbers_in_source":16,
+ "levels":{"light":{"numbers_read":"16/16","findings_kept":3,"dropped_by_second_read":0,"cost_usd":[0.002418,0.002029]},
+           "medium":{"numbers_read":"16/16","findings_kept":3,"dropped_by_second_read":0,"cost_usd":[0.002346,0.001396]},
+           "hard":{"numbers_read":"16/16","findings_kept":2,"dropped_by_second_read":1,"cost_usd":[0.002349,0.000992]}},
+ "findings_in_text_version":3,
+ "caveats":["Only one synthetic document set, so this shows the mechanism works, not a general accuracy rate.","Real scans, handwriting, stamps and complex tables are not tested.","Fixtures: public/samples/noise, generator: scripts/make_noise_levels.py"]}

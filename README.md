@@ -37,3 +37,9 @@ Fixtures: `python3 scripts/make_scanned_fixture.py OUTDIR`; samples in `public/s
 `/api/batch` runs generated synthetic packages (errors injected into template B, plus clean packs) with live Ember and reports total cost,
 cost per package, packages per minute, recall by check and false alarms. It stays disabled unless `BATCH_TOKEN` is set on the server.
 `LIVE_DISABLED=1` switches off all live model calls.
+
+
+## Combined audit reports and scan quality
+- Upload one combined audit report and the app finds the awards schedule, financial statements and findings by their headings (`ember_ledger/split.py`). Text PDFs only; scanned combined PDFs must be uploaded as three parts.
+- The federal program list loads from `data/aln.csv` (columns `number,title`) when present. The built-in list has three demo programs.
+- `scripts/make_noise_levels.py` builds scanned test pages at three quality levels; results are in `public/scanned-quality.json`.
