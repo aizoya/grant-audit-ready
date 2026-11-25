@@ -8,6 +8,7 @@ from datetime import date
 from . import checks
 from .ledger import Ledger
 from .schemas import (PRIOR_AUDIT_SCHEMA, SEFA_SCHEMA, STATEMENTS_SCHEMA, Report, ReportFinding)
+from .scanned import confirmed
 from .verifier import Evidence, verify_quote
 
 RULES_PREFIX = (  # stable, cached prefix: rules first, volatile document last
@@ -27,7 +28,23 @@ def _ev(doc: str, pages, quote: str, out: list[dict]) -> bool:
     return r.ok
 
 
-def run(adapter, ledger: Ledger, docs: dict[str, list[str]], effort: str = "minimal") -> Report:
+def run(adapter, ledger: Ledger, docs: dict[str, list[str]], effort: str = "minimal",
+        confirm: dict[str, list[str]] | None = None) -> Report:
+    """confirm: optional second-read pages for scanned documents (slot -> pages). A quote on a scanned
+    document must also match numerically on the second read, or the finding is dropped."""
+    unconfirmed = [0]
+
+    def _ev(doc, pages, quote, out):
+        r = verify_quote(pages, Evidence(quote))
+        if r.ok and confirm and doc in confirm:
+            b = confirm[doc]
+            if not (r.page and r.page <= len(b) and confirmed(quote, b[r.page - 1])):
+                unconfirmed[0] += 1
+                return False
+        if r.ok:
+            out.append({"doc": doc, "page": r.page, "quote": quote})
+        return r.ok
+
     sefa = adapter.complete("extract_sefa", RULES_PREFIX, _doc_text(docs["sefa"]), SEFA_SCHEMA, effort, 2000)
     fs = adapter.complete("extract_statements", RULES_PREFIX, _doc_text(docs["statements"]), STATEMENTS_SCHEMA, effort, 800)
     prior = adapter.complete("extract_prior", RULES_PREFIX, _doc_text(docs["prior"]), PRIOR_AUDIT_SCHEMA, effort, 2000)
@@ -131,4 +148,5 @@ def run(adapter, ledger: Ledger, docs: dict[str, list[str]], effort: str = "mini
             passed.append(f"prior_finding_{f['reference']}_referenced")
 
     ledger.mark_verified(len(findings))
-    return Report(findings, passed, dropped, round(ledger.spent, 6), ledger.cost_per_verified_result)
+    return Report(findings, passed, dropped, round(ledger.spent, 6), ledger.cost_per_verified_result,
+                  unconfirmed_by_second_read=unconfirmed[0])

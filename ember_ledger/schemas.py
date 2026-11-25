@@ -87,6 +87,7 @@ class Report:
     cost_per_verified_finding: float | None
     disclaimer: str = ("Screening aid for the organization and its CPA. Not an audit, "
                        "opinion or legal advice. Every finding quotes the source text.")
+    unconfirmed_by_second_read: int = 0
 
     def to_dict(self) -> dict:
         return asdict(self)

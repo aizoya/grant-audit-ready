@@ -149,7 +149,8 @@ footer img{height:26px;display:block;margin-bottom:12px}
   <div id="result" aria-live="polite">
     <div class="meter" id="meter"></div>
     <div class="split">
-      <div><div id="findings"></div><div class="no-print"><button class="btn ghost" onclick="window.print()" style="padding:10px 16px;font-size:14px">Print or save as PDF</button></div></div>
+      <div><div class="warnbox" id="scanbox" style="display:none"></div>
+<div id="findings"></div><div class="no-print"><button class="btn ghost" onclick="window.print()" style="padding:10px 16px;font-size:14px">Print or save as PDF</button></div></div>
       <div><div class="tabs" id="doctabs"></div><div id="pages"></div></div>
     </div>
     <p class="note" id="resnote"></p>
@@ -178,7 +179,7 @@ footer img{height:26px;display:block;margin-bottom:12px}
 <section id="upload" class="alt"><div class="wrap">
   <div class="kicker">Live model</div>
   <h2>Check your own PDFs.</h2>
-  <p class="sub">Runs Muse Ember live on the three documents you choose. Text PDFs only (scanned pages are not supported yet).</p>
+  <p class="sub">Runs Muse Ember live on the three documents you choose. Text PDFs are checked against their text layer. Scanned PDFs (up to 12 pages each) are read by the model twice, and a finding is kept only if both reads agree.</p>
   <p class="warnbox"><b>Synthetic or practice documents only.</b> This public demo is not for real grantee records. Files are read in memory, never stored, and never used for training.</p>
   <div class="grid g3">
     <label class="drop" id="d-sefa"><b>Awards schedule (SEFA)</b><span id="n-sefa">Choose a PDF</span><input type="file" accept="application/pdf" data-slot="sefa"></label>
@@ -271,6 +272,9 @@ function render(run,selected){
   $("#doctabs").innerHTML=Object.keys(DOCS).map(k=>`<button data-k="${k}" aria-pressed="${k===curDoc}">${DOCS[k]}</button>`).join("");
   document.querySelectorAll("#doctabs button").forEach(b=>b.addEventListener("click",()=>{curDoc=b.dataset.k;render(cur,selected);}));
   $("#pages").innerHTML=(run.docs[curDoc]||[]).map((t,i)=>`<div class="page"><span class="pn">${DOCS[curDoc]} &middot; page ${i+1}</span>${highlight(t,quotes[curDoc])}</div>`).join("");
+  const sc=document.getElementById("scanbox");
+  if(sc){sc.style.display=run.scanned&&run.scanned.length?"block":"none";
+    if(run.scanned&&run.scanned.length)sc.textContent=(run.assurance||"")+" Scanned: "+run.scanned.map(k=>DOCS[k]||k).join(", ")+". Dropped because the second read disagreed: "+((rep.unconfirmed_by_second_read)||0)+".";}
   $("#resnote").textContent = run.live
     ? "Live run on your upload with Muse Ember. Nothing was stored. Readiness aid only: not an audit opinion or legal advice."
     : `Recorded live run of Muse Ember (muse-ember-1.0) on a synthetic package, ${run.recorded_at}. Readiness aid only: not an audit opinion or legal advice.`;
@@ -305,7 +309,7 @@ $("#run").addEventListener("click",async()=>{
     const j=await r.json();
     if(!r.ok||!j.ok)throw new Error(j.message||"The check could not run.");
     curDoc=j.report.findings.length&&j.report.findings[0].evidence[0]?j.report.findings[0].evidence[0].doc:"sefa";
-    render({docs:j.docs,report:j.report,calls:j.calls,live:true},j.report.findings.length?0:null);
+    render({docs:j.docs,report:j.report,calls:j.calls,live:true,scanned:j.scanned,assurance:j.assurance},j.report.findings.length?0:null);
     document.querySelectorAll(".scn").forEach(b=>b.setAttribute("aria-pressed","false"));
     $("#result").scrollIntoView({behavior:"smooth"});
   }catch(e){err.textContent=e.message;err.style.display="block";}

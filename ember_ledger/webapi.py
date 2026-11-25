@@ -14,11 +14,13 @@ from .adapter import LiveAdapter
 from .ingest import looks_scanned, pdf_pages_from_bytes
 from .ledger import BudgetExceeded, Ledger
 from .pipeline import run
+from .scanned import ASSURANCE, read_two_ways
 
 SLOTS = ("sefa", "statements", "prior")
 MAX_FILE_BYTES = 1_500_000
 MAX_PAGES = 40
 MAX_CHARS = 60_000
+MAX_SCANNED_PAGES = 12          # per scanned document (page images cost more than text)
 PER_REQUEST_BUDGET = 0.05      # USD; a real run costs about 0.0004
 PER_REQUEST_HARD_STOP = 0.04
 RATE_LIMIT = (12, 3600)        # requests per IP per window, best effort per server instance
@@ -44,7 +46,8 @@ def _rate_ok(ip: str, now: float | None = None) -> bool:
     return True
 
 
-def _pages(b64: str, slot: str) -> list[str]:
+def _pages(b64: str, slot: str):
+    """Returns (pages, raw_bytes, is_scanned). Scanned PDFs return empty page text; the model reads them later."""
     try:
         raw = base64.b64decode(b64, validate=True)
     except (binascii.Error, ValueError):
@@ -57,13 +60,13 @@ def _pages(b64: str, slot: str) -> list[str]:
         pages = pdf_pages_from_bytes(raw)
     except Exception:
         raise UserError(f"The {slot} PDF could not be opened.")
-    if len(pages) > MAX_PAGES:
-        raise UserError(f"The {slot} PDF has more than {MAX_PAGES} pages.", 413)
-    if looks_scanned(pages):
-        raise UserError(f"The {slot} PDF looks scanned (no text layer). Scanned pages are not supported yet.", 422)
-    if sum(len(p) for p in pages) > MAX_CHARS:
+    scanned = looks_scanned(pages)
+    if len(pages) > (MAX_SCANNED_PAGES if scanned else MAX_PAGES):
+        raise UserError(f"The {slot} PDF has more than {MAX_SCANNED_PAGES if scanned else MAX_PAGES} pages"
+                        f"{' (scanned limit)' if scanned else ''}.", 413)
+    if not scanned and sum(len(p) for p in pages) > MAX_CHARS:
         raise UserError(f"The {slot} PDF has too much text for the public demo.", 413)
-    return pages
+    return pages, raw, scanned
 
 
 def handle_check(payload: dict, env: dict | None = None, ip: str = "unknown", adapter_factory=None):
@@ -77,21 +80,32 @@ def handle_check(payload: dict, env: dict | None = None, ip: str = "unknown", ad
         missing = [s for s in SLOTS if not payload["docs"].get(s)]
         if missing:
             raise UserError("Missing: " + ", ".join(missing) + ".")
-        docs = {s: _pages(payload["docs"][s], s) for s in SLOTS}
+        loaded = {s: _pages(payload["docs"][s], s) for s in SLOTS}
     except UserError as e:
         return e.status, {"ok": False, "error": "invalid_upload", "message": str(e)}
 
+    docs = {s: loaded[s][0] for s in SLOTS}
+    scanned_slots = [s for s in SLOTS if loaded[s][2]]
     ledger = Ledger(budget=PER_REQUEST_BUDGET, hard_stop=PER_REQUEST_HARD_STOP)
     try:
         adapter = adapter_factory(ledger) if adapter_factory else LiveAdapter(ledger)
     except RuntimeError:
         return 503, {"ok": False, "error": "live_unavailable",
                      "message": "The live model is not available right now. The recorded sample runs still work."}
+    confirm = None
     try:
-        report = run(adapter, ledger, docs)
+        if scanned_slots:
+            confirm = {}
+            for s_ in scanned_slots:
+                docs[s_], confirm[s_] = read_two_ways(adapter, loaded[s_][1], len(loaded[s_][0]), s_)
+        report = run(adapter, ledger, docs, confirm=confirm)
     except BudgetExceeded:
         return 429, {"ok": False, "error": "budget", "message": "This pack is too large for the public demo cost cap."}
     except Exception:
         return 502, {"ok": False, "error": "model_error", "message": "The model call failed. Nothing was stored. Try again."}
-    return 200, {"ok": True, "mode": "live", "model": "muse-ember-1.0", "calls": ledger.calls,
-                 "report": report.to_dict(), "docs": docs}
+    body = {"ok": True, "mode": "live", "model": "muse-ember-1.0", "calls": ledger.calls,
+            "report": report.to_dict(), "docs": docs}
+    if scanned_slots:
+        body["scanned"] = scanned_slots
+        body["assurance"] = ASSURANCE
+    return 200, body

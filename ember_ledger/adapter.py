@@ -90,3 +90,60 @@ class LiveAdapter:
         self.ledger.record(label, Usage.from_responses_api(resp["usage"]))
         text = "".join(c.get("text", "") for o in resp.get("output", []) if o.get("type") == "message" for c in o.get("content", []))
         return json.loads(text)
+
+
+READ_SCHEMA = {
+    "type": "object",
+    "properties": {"pages": {"type": "array", "items": {"type": "object", "properties": {
+        "page": {"type": "integer", "description": "1-based page number"},
+        "text": {"type": "string", "description": "Everything printed on that page, in reading order"}},
+        "required": ["page", "text"], "additionalProperties": False}}},
+    "required": ["pages"], "additionalProperties": False,
+}
+
+READ_PROMPTS = {
+    "a": ("Transcribe every page of this scanned document exactly as printed, in reading order. "
+          "Keep every number, symbol and punctuation mark exactly as shown. Do not correct, translate, "
+          "summarize or infer anything. If text is unreadable write [unreadable]. Return JSON only."),
+    "b": ("Read this scanned document page by page. For each page return all text line by line, "
+          "writing each table row on its own line with columns separated by ' | '. Copy numbers digit "
+          "for digit. Never fix or guess a value. If text is unreadable write [unreadable]. Return JSON only."),
+}
+EST_TOKENS_PER_PAGE = 2500  # conservative preflight guess for page image + text; real usage is recorded after the call
+
+
+def _read_pdf(self, label, raw, n_pages, variant="a", effort="minimal"):
+    """Native PDF input: the model reads the page images and returns a transcript per page.
+    Preflight uses a worst-case estimate; the ledger records real usage from the response."""
+    import base64 as _b64
+    import urllib.request
+
+    max_out = 900 * n_pages + 400
+    self.ledger.preflight(EST_TOKENS_PER_PAGE * n_pages + 400, max_out)
+    data = "data:application/pdf;base64," + _b64.b64encode(raw).decode()
+    body = {
+        "model": MODEL_ID,
+        "input": [{"type": "message", "role": "user", "content": [
+            {"type": "input_text", "text": READ_PROMPTS[variant]},
+            {"type": "input_file", "filename": "document.pdf", "file_data": data}]}],
+        "reasoning": {"effort": effort},
+        "max_output_tokens": max_out,
+        "text": {"format": {"type": "json_schema", "name": label, "schema": strictify(READ_SCHEMA), "strict": True}},
+        "temperature": 0,
+    }
+    req = urllib.request.Request(f"{self.BASE}/responses", data=json.dumps(body).encode(),
+                                 headers={"Authorization": f"Bearer {self.key}", "Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=120) as r:
+        resp = json.loads(r.read())
+    self.ledger.record(label, Usage.from_responses_api(resp["usage"]))
+    text = "".join(c.get("text", "") for o in resp.get("output", []) if o.get("type") == "message" for c in o.get("content", []))
+    pages = json.loads(text)["pages"]
+    out = [""] * n_pages
+    for pg in pages:
+        i = int(pg["page"]) - 1
+        if 0 <= i < n_pages:
+            out[i] = pg["text"]
+    return out
+
+
+LiveAdapter.read_pdf = _read_pdf
