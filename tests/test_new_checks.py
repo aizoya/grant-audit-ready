@@ -6,7 +6,8 @@ from ember_ledger.ingest import looks_scanned, pdf_pages
 def test_aln_match_and_mismatch():
     assert checks.check_aln_program("Head Start Cluster", "93.600").passed
     assert not checks.check_aln_program("Head Start Cluster", "93.569").passed
-    assert not checks.check_aln_program("Mystery Program", "99.999").passed
+    assert not checks.check_aln_program("Head Start Cluster", "93.604").passed  # known program, wrong number
+    assert checks.check_aln_program("Mystery Program", "99.999").passed         # unknown both ways: not checked
 
 
 def test_report_date_window():

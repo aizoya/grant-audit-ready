@@ -82,7 +82,12 @@ KNOWN_ALN = {"93.600": "head start", "93.569": "community services block grant",
 def check_aln_program(program: str, aln: str) -> Check:
     name = KNOWN_ALN.get(aln)
     if name is None:
-        return Check("aln_program_match", False, f"ALN {aln} for '{program}' is not in the reference list: verify the number")
+        # The demo list is tiny. A number we do not know is a finding only if the program NAME is one we do know
+        # (then the number is wrong for it). Otherwise it is "not checked", never a finding.
+        for known_aln, known_name in KNOWN_ALN.items():
+            if known_name in program.lower():
+                return Check("aln_program_match", False, f"'{program}' is listed under ALN {known_aln}; schedule says {aln}")
+        return Check("aln_program_match", True, f"ALN {aln} and '{program}' are not in the reference list: not checked")
     ok = name in program.lower()
     return Check("aln_program_match", ok, f"ALN {aln} is listed as '{name}'; schedule says '{program}'")
 

@@ -114,7 +114,12 @@ def run(adapter, ledger: Ledger, docs: dict[str, list[str]], effort: str = "mini
     # 4. Prior-year findings with no response text anywhere in this year's pack
     pack = " ".join(" ".join(p) for p in docs.values()).lower()
     for f in prior["findings"]:
-        ref = f["reference"].lower()
+        import re as _re
+        m = _re.search(r"\d{4}-\d{2,}", f["reference"]) or _re.search(r"\d{4}-\d{2,}", f["quote"])
+        if not m:
+            passed.append("prior_finding_unreferenced_not_checked")  # no finding number to track: do not guess
+            continue
+        ref = m.group().lower()
         if pack.count(ref) <= 1:  # appears only where it was reported
             ev = []
             if _ev("prior", docs["prior"], f["quote"], ev):

@@ -80,6 +80,7 @@ class LiveAdapter:
             "reasoning": {"effort": effort},
             "max_output_tokens": max_output_tokens,
             "text": {"format": {"type": "json_schema", "name": label, "schema": strictify(schema), "strict": True}},
+            "temperature": 0,
             "prompt_cache_retention": "24h",
         }
         req = urllib.request.Request(f"{self.BASE}/responses", data=json.dumps(body).encode(),

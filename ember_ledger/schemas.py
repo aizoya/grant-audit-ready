@@ -56,7 +56,7 @@ PRIOR_AUDIT_SCHEMA = {
             "items": {
                 "type": "object",
                 "properties": {
-                    "reference": {"type": "string"},
+                    "reference": {"type": "string", "description": "Finding number exactly as printed, e.g. 2025-001; empty if none printed"},
                     "summary": {"type": "string"},
                     "quote": QUOTE,
                 },
