@@ -15,6 +15,7 @@ from .ingest import looks_scanned, pdf_pages_from_bytes
 from .ledger import BudgetExceeded, Ledger
 from .pipeline import run
 from .scanned import ASSURANCE, read_all
+from .split import split_package
 
 SLOTS = ("sefa", "statements", "prior")
 MAX_FILE_BYTES = 1_500_000
@@ -72,18 +73,28 @@ def _pages(b64: str, slot: str):
 def handle_check(payload: dict, env: dict | None = None, ip: str = "unknown", adapter_factory=None):
     """Returns (http_status, body_dict)."""
     env = os.environ if env is None else env
-    if not isinstance(payload, dict) or not isinstance(payload.get("docs"), dict):
-        return 400, {"ok": False, "error": "bad_request", "message": "Send {docs: {sefa, statements, prior}} as base64 PDFs."}
+    if not isinstance(payload, dict) or not (isinstance(payload.get("docs"), dict) or payload.get("package")):
+        return 400, {"ok": False, "error": "bad_request", "message": "Send {docs: {sefa, statements, prior}} or {package} as base64 PDFs."}
     if env.get("LIVE_DISABLED"):
         return 503, {"ok": False, "error": "live_unavailable",
                      "message": "The live model is switched off right now. The recorded sample runs still work."}
     if not _rate_ok(ip):
         return 429, {"ok": False, "error": "rate_limited", "message": "Too many checks from this address. Try again later."}
     try:
-        missing = [s for s in SLOTS if not payload["docs"].get(s)]
-        if missing:
-            raise UserError("Missing: " + ", ".join(missing) + ".")
-        loaded = {s: _pages(payload["docs"][s], s) for s in SLOTS}
+        if payload.get("package"):
+            pages, _raw, pkg_scanned = _pages(payload["package"], "combined")
+            if pkg_scanned:
+                raise UserError("A scanned combined PDF cannot be split yet. Upload the three parts separately.")
+            try:
+                parts = split_package(pages)
+            except ValueError as e:
+                raise UserError(str(e))
+            loaded = {s: (parts[s], None, False) for s in SLOTS}
+        else:
+            missing = [s for s in SLOTS if not payload["docs"].get(s)]
+            if missing:
+                raise UserError("Missing: " + ", ".join(missing) + ".")
+            loaded = {s: _pages(payload["docs"][s], s) for s in SLOTS}
     except UserError as e:
         return e.status, {"ok": False, "error": "invalid_upload", "message": str(e)}
 

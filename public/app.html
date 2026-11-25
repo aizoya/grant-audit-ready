@@ -237,6 +237,8 @@ footer{background:var(--ink);color:#C8D3EA;border-top-color:var(--gold)}footer a
     <label class="drop" id="d-statements"><b>Financial statements</b><span id="n-statements">Choose a PDF</span><input type="file" accept="application/pdf" data-slot="statements"></label>
     <label class="drop" id="d-prior"><b>Prior-year findings</b><span id="n-prior">Choose a PDF</span><input type="file" accept="application/pdf" data-slot="prior"></label>
   </div>
+  <p class="sub" style="margin:18px 0 10px;font-size:15px">Or upload one combined audit report. We find the awards schedule, the financial statements and the findings inside it by their headings. Text PDFs only for now.</p>
+  <div class="grid g3"><label class="drop" id="d-package"><b>One combined PDF</b><span id="n-package">Choose a PDF</span><input type="file" accept="application/pdf" data-slot="package"></label></div>
   <div style="margin-top:16px"><button class="btn primary" id="run" disabled>Run live check</button></div>
   <p class="sub" style="margin-top:14px;font-size:14px">No files handy? Synthetic samples (the awards total is off on purpose): scanned set <a href="/samples/scanned-sefa.pdf">awards schedule</a>, <a href="/samples/scanned-statements.pdf">statements</a>, <a href="/samples/scanned-prior.pdf">prior findings</a>; text set <a href="/samples/text-sefa.pdf">awards schedule</a>, <a href="/samples/text-statements.pdf">statements</a>, <a href="/samples/text-prior.pdf">prior findings</a>.</p>
   <div class="err" id="err" role="alert"></div>
@@ -361,13 +363,13 @@ function b64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onl
 document.querySelectorAll(".drop input").forEach(inp=>inp.addEventListener("change",()=>{
   const s=inp.dataset.slot,f=inp.files[0];
   if(f){files[s]=f;$("#n-"+s).textContent=f.name;$("#d-"+s).classList.add("has");}
-  $("#run").disabled=!(files.sefa&&files.statements&&files.prior);
+  $("#run").disabled=!(files.package||(files.sefa&&files.statements&&files.prior));
 }));
 $("#run").addEventListener("click",async()=>{
   const btn=$("#run"),err=$("#err");err.style.display="none";btn.disabled=true;btn.textContent="Checking…";
   try{
-    const docs={};for(const s of ["sefa","statements","prior"])docs[s]=await b64(files[s]);
-    const r=await fetch("/api/check",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({docs})});
+    let body;if(files.package){body={package:await b64(files.package)};}else{const docs={};for(const s of ["sefa","statements","prior"])docs[s]=await b64(files[s]);body={docs};}
+    const r=await fetch("/api/check",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
     const j=await r.json();
     if(!r.ok||!j.ok)throw new Error(j.message||"The check could not run.");
     curDoc=j.report.findings.length&&j.report.findings[0].evidence[0]?j.report.findings[0].evidence[0].doc:"sefa";
