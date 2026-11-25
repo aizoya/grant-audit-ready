@@ -64,5 +64,5 @@ class LyingAdapter(RegexAdapter):
     def complete(self, label, prefix, document, schema, effort="minimal", max_output_tokens=2000):
         out = super().complete(label, prefix, document, schema, effort, max_output_tokens)
         s = json.dumps(out)
-        s = re.sub(r'"((?:stated_total_|federal_revenue_|audit_required_)?quote)": "[^"]*"', r'"\1": "fabricated text that is not in the document"', s)
+        s = re.sub(r'"((?:stated_total_|federal_revenue_|audit_required_|auditor_report_|statements_year_end_)?quote)": "[^"]*"', r'"\1": "fabricated text that is not in the document"', s)
         return json.loads(s)

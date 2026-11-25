@@ -74,6 +74,9 @@ def handle_check(payload: dict, env: dict | None = None, ip: str = "unknown", ad
     env = os.environ if env is None else env
     if not isinstance(payload, dict) or not isinstance(payload.get("docs"), dict):
         return 400, {"ok": False, "error": "bad_request", "message": "Send {docs: {sefa, statements, prior}} as base64 PDFs."}
+    if env.get("LIVE_DISABLED"):
+        return 503, {"ok": False, "error": "live_unavailable",
+                     "message": "The live model is switched off right now. The recorded sample runs still work."}
     if not _rate_ok(ip):
         return 429, {"ok": False, "error": "rate_limited", "message": "Too many checks from this address. Try again later."}
     try:
