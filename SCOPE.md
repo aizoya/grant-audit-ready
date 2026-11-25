@@ -3,10 +3,10 @@
 Working name: (none yet). Runtime module: `ember_ledger` (reusable across AIZOYA products).
 
 ## Problem (global-first framing)
-Organizations that spend public/donor grant money must prove it was spent and reported correctly. Small grantees and the CPAs who serve them find errors late, in audit, when fixes are costly. US first (federal grants $848B in 2025, per OMB via Yale SOM paper); the same pattern exists for donor-funded programs worldwide (assumption - not yet sourced).
+Organizations that spend public/donor grant money must prove it was spent and reported correctly. Community grantees and the CPAs who serve them find errors late, in audit, when fixes are costly. US first (federal grants $848B in 2025, per OMB via Yale SOM paper); the same pattern exists for donor-funded programs worldwide (assumption - not yet sourced).
 
 ## One user, one workflow
-User: a finance lead at a small nonprofit/local government (or their CPA) preparing for a Single Audit.
+User: a finance lead at a nonprofit or local government (or their CPA) preparing for a Single Audit.
 Workflow: upload draft SEFA + financial statements + prior-year audit report (PDFs) -> get an evidence-linked readiness report (each finding quotes the source page; code verifies the quote) + a cost line (cents per report).
 
 ## Definition of done (acceptance tests)
@@ -24,7 +24,7 @@ Audit opinions or legal advice; naming/accusing real organizations (real finding
 - FAC single audit data: free, public domain (fac.gov/data). Use: realistic document structure + findings text distributions. Tribal-exempt items excluded (non-public by rule).
 - 2 CFR 200 text (US government work) -> the cached rules prefix.
 - NOT using Kensho FIND until its Terms of Usage are read and permit it.
-- Shell cannot reach fac.gov (proxy policy). Route: Franklyn's home Mac, after approval, for small samples only.
+- Shell cannot reach fac.gov (proxy policy). Route: Franklyn's home Mac, after approval, for limited samples only.
 
 ## Model plan
 Runtime: Ember only (muse-ember-1.0, Responses API), deterministic code orchestrator (no larger planner model). Requests <=200K input; stable prefix first; effort set per step (minimal for extraction, low for cross-checks); structured output with strict JSON schema; ledger preflight on every call.

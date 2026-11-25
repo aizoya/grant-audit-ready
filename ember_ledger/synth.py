@@ -1,4 +1,4 @@
-"""Synthetic documents only (no real customer data). Three small 'PDFs' as page lists."""
+"""Synthetic documents only (no real customer data). Three 'PDFs' as page lists."""
 from __future__ import annotations
 
 

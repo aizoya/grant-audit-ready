@@ -14,7 +14,7 @@ Warning from evidence: long-context accuracy degrades (NoLiMa, cited by Ironclad
 
 ## Emerging gap: grantee-side single-audit / grant-report readiness
 Context: federal grants $848B in 2025 (Yale SOM paper citing OMB). Grantees >= $1M federal spend need a Single Audit. HHS announced AI-driven enforcement of single-audit compliance (agency side). Public data source: Federal Audit Clearinghouse (public, machine-readable). Existing: Berkeley capstone complyraAI (research-staff focus), big-firm blog posts (BDO, Armanino). GAO loss estimate $233-521B/yr appears only in sponsored vendor content - treat as unverified.
-Open question to test: does anyone sell a cheap, evidence-linked pre-audit checker for small nonprofits / local governments / the CPAs who serve them? NOT yet verified - needs app-store, Product Hunt, GitHub sweep.
+Open question to test: does anyone sell a cheap, evidence-linked pre-audit checker for nonprofits / local governments / the CPAs who serve them? NOT yet verified - needs app-store, Product Hunt, GitHub sweep.
 
 ## Niche sweep results (2026-11-24, web search only; NOT yet done: app stores, Product Hunt, GitHub topic search by stars)
 Grantee-side, found:
@@ -23,7 +23,7 @@ Grantee-side, found:
 - Berkeley MIDS capstone "complyraAI" (research-staff compliance helper) - academic, scope differs.
 Agency/oversight-side, found: HHS AI audit enforcement; HRSA "AI Audit Resolution Assistant" (HHS AI use-case inventory; HRSA used public FAC data to evaluate LLM accuracy); GAO internal "FAC Exploration Tool"; GAO-24-106173 documents FAC data quality problems.
 Data side, found: FAC data is free and public domain; CSV downloads and a free API (key from Data.gov); 2016-present; 18F "FAC Distiller" (2019 prototype for findings text); community Apify scraper and an "mcp-fac" npm package. FAC publishes audit PDF + SF-SAC form per report.
-Read: no found product does "upload your draft SEFA/financials/prior audit -> evidence-linked inconsistency + readiness report at cents per run" for small grantees. Absence in one pass of web search is NOT proof; still must sweep app stores/Product Hunt/GitHub and talk to 2-3 CPAs/nonprofit finance people.
+Read: no found product does "upload your draft SEFA/financials/prior audit -> evidence-linked inconsistency + readiness report at cents per run" for community grantees. Absence in one pass of web search is NOT proof; still must sweep app stores/Product Hunt/GitHub and talk to 2-3 CPAs/nonprofit finance people.
 
 ## Meta Model API facts that shape the design (read from dev.meta.ai docs, 2026-11-24)
 - Official price muse-ember-1.0: <=200K input tokens: $0.10 in / $0.50 out / $0.004 cached. >200K: $0.30 / $1.50 / $0.012, applied to the WHOLE request (cached tokens count toward the tier). => Keep every request <=200K; a 1M-token stuffing approach triples the price.
@@ -42,4 +42,4 @@ Read: no found product does "upload your draft SEFA/financials/prior audit -> ev
 - Default concurrency in Muse Code is 7 subagents; 429s -> fewer workers/backoff.
 
 ## Uniqueness gate (draft, unproven)
-"Evidence-linked, cost-metered audit-readiness checker for small grantees, built on cached rules + deterministic quote verification, priced in cents per report." Closest alternatives: Ironclad/Harvey (contracts, enterprise price), consumer explainers (no audit rules), agency-side AI (wrong buyer).
+"Evidence-linked, cost-metered audit-readiness checker for community grantees, built on cached rules + deterministic quote verification, priced in cents per report." Closest alternatives: Ironclad/Harvey (contracts, enterprise price), consumer explainers (no audit rules), agency-side AI (wrong buyer).

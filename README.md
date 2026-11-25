@@ -1,6 +1,6 @@
 # grant-audit-ready
 
-Evidence-linked Single Audit readiness checker for small grantees, built for the Meta Muse Ember hackathon.
+Evidence-linked Single Audit readiness checker for community grantees, built for the Meta Muse Ember hackathon.
 The model only extracts values with exact quotes. Code does the rules, arithmetic and quote verification.
 Findings without a verified quote are dropped. Every run reports its cost.
 
