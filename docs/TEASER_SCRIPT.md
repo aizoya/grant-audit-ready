@@ -13,5 +13,5 @@ Every number below comes from `public/batch-run.json` and the live proof table. 
 Notes
 - Never show real grantee data. Use the synthetic samples only.
 - The 3-minute judging demo video is a separate, longer file. This teaser is for the front page.
-- Presenter: English-speaking woman (HeyGen avatar or a generated voice with captions). Needs Franklyn's approval before any credits are spent.
+- Final: no presenter (HeyGen quota used). Captioned screen film, scripts/teaser/film.html + record.py. Voiceover optional later.
 - Burn in captions so it works muted on a phone.
