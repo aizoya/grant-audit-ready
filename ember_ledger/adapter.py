@@ -24,6 +24,20 @@ def rough_tokens(text: str) -> int:
     return max(1, len(text) // 4)
 
 
+
+def strictify(schema):
+    """Strict structured output needs every property listed in required (verified live)."""
+    if isinstance(schema, dict):
+        out = {k: strictify(v) for k, v in schema.items()}
+        if out.get("type") == "object" and "properties" in out:
+            out["required"] = list(out["properties"].keys())
+            out["additionalProperties"] = False
+        return out
+    if isinstance(schema, list):
+        return [strictify(v) for v in schema]
+    return schema
+
+
 class StubAdapter:
     """Deterministic fake: returns a canned JSON answer and plausible usage."""
 
@@ -65,7 +79,7 @@ class LiveAdapter:
             "input": [{"role": "system", "content": prefix}, {"role": "user", "content": document}],
             "reasoning": {"effort": effort},
             "max_output_tokens": max_output_tokens,
-            "text": {"format": {"type": "json_schema", "name": label, "schema": schema, "strict": True}},
+            "text": {"format": {"type": "json_schema", "name": label, "schema": strictify(schema), "strict": True}},
             "prompt_cache_retention": "24h",
         }
         req = urllib.request.Request(f"{self.BASE}/responses", data=json.dumps(body).encode(),
