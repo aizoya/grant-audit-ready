@@ -16,7 +16,7 @@ Current gaps (honest): date 4/10, threshold-flip 0/10 (the stand-in extractor do
 | Check | Template A (dev, seeds 0-4) | Template B (different wording, 5 programs, seeds 100-104) |
 |---|---|---|
 | arithmetic | 5/5 | 5/5 |
-| award ID | 5/5 | 3/5 (ALN reference list has only 3 programs; real list needed) |
+| award ID | 5/5 | 3/5 (measured when the ALN list had only 3 programs; the app now uses the official SAM.gov list, Nov 21, 2026, `data/aln.SOURCE.txt`; not yet re-measured) |
 | dates | 5/5 | 5/5 |
 | threshold | 5/5 | 5/5 |
 | prior finding omitted | not exercised | 5/5 |

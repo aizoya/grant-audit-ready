@@ -5,7 +5,7 @@ from __future__ import annotations
 _PROGRAMS = [
     ("U.S. Department of Health and Human Services", "Head Start Cluster", "93.600", 812_450),
     ("U.S. Department of Health and Human Services", "Community Services Block Grant", "93.569", 265_300),
-    ("U.S. Department of Labor", "Youth Workforce Program", "17.259", 190_725),
+    ("U.S. Department of Labor", "WIOA Youth Activities", "17.259", 190_725),
     ("U.S. Department of Agriculture", "Child and Adult Care Food Program", "10.558", 121_000),
     ("U.S. Department of Housing and Urban Development", "Emergency Solutions Grants Program", "14.231", 98_400),
 ]

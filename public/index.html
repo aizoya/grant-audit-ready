@@ -176,7 +176,7 @@ Total federal awards expended: $1,284,300</pre>
     <div><h3>Budget and proof of usage</h3><p>Every model call is metered against the $10 budget with a hard stop well below it, and each report shows what it cost. The token trace and Usage page screenshot accompany the submission.</p></div>
   </div>
   <h3 style="margin-top:36px">Honest limits</h3>
-  <ul class="t"><li>Synthetic documents only so far. Real filings are the next test.</li><li>Award-number checks are limited by our short program reference list (see Proof).</li><li>Scanned pages are read by the model, not by a text layer, so that mode is flagged as lower assurance. We measured it on synthetic scans (see Proof): every number was read correctly, and at the roughest quality the second read disagreed on one figure, so that finding was dropped instead of shown. Real scans, handwriting and stamps are untested.</li></ul>
+  <ul class="t"><li>Synthetic documents only so far. Real filings are the next test.</li><li>Award numbers are now checked against the official federal program list (SAM.gov, 2,644 programs, Nov 21, 2026). The recorded batch result in Proof was measured earlier with a three-program list, so it understates this check until we re-run it.</li><li>Scanned pages are read by the model, not by a text layer, so that mode is flagged as lower assurance. We measured it on synthetic scans (see Proof): every number was read correctly, and at the roughest quality the second read disagreed on one figure, so that finding was dropped instead of shown. Real scans, handwriting and stamps are untested.</li></ul>
 </section>
 
 <section class="panel" id="p-proof" role="tabpanel">
@@ -254,7 +254,7 @@ fetch("/batch-run.json").then(r=>r.ok?r.json():null).then(b=>{
   const NM={arithmetic:"Arithmetic",award_id:"Award number",date:"Dates",threshold:"Audit threshold",prior_finding_omitted:"Prior finding unanswered"};
   $("#pm").innerHTML=li("Packages checked",b.packages)+li("Total cost","$"+b.total_cost_usd.toFixed(3))+li("Cost per package","$"+b.cost_per_package_usd.toFixed(4))+li("Packages per minute",b.packages_per_minute)+li("False alarms on clean packages",b.false_alarms.flagged+" of "+b.false_alarms.packages);
   $("#pr").innerHTML=Object.keys(b.recall).map(k=>li(NM[k]||k,b.recall[k].found+" / "+b.recall[k].of)).join("");
-  $("#pn").textContent=`Award numbers: our reference list has only 3 programs, so we miss the rest; the full federal list is next. Recorded ${b.recorded_at}: ${b.calls} calls to ${b.model}, ${b.errors} errors, 3 runs of 40 packages. Errors are injected into generated packages (template B wording) plus clean packages. Synthetic documents, not real audits.`;
+  $("#pn").textContent=`Award numbers: the recorded run below used a three-program reference list, so it misses most programs. The app now uses the official SAM.gov list (Nov 21, 2026); a re-run is pending. Recorded ${b.recorded_at}: ${b.calls} calls to ${b.model}, ${b.errors} errors, 3 runs of 40 packages. Errors are injected into generated packages (template B wording) plus clean packages. Synthetic documents, not real audits.`;
 }).catch(()=>{});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));}
 </script>
