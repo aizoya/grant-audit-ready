@@ -43,3 +43,10 @@ cost per package, packages per minute, recall by check and false alarms. It stay
 - Upload one combined audit report and the app finds the awards schedule, financial statements and findings by their headings (`ember_ledger/split.py`). Text PDFs only; scanned combined PDFs must be uploaded as three parts.
 - The federal program list loads from `data/aln.csv` (columns `number,title`) when present. The built-in list has three demo programs.
 - `scripts/make_noise_levels.py` builds scanned test pages at three quality levels; results are in `public/scanned-quality.json`.
+
+## Real filings, first look (Nov 26, 2026; splitting only, no model run)
+Three public Single Audit PDFs (Cameron Community Action Agency, Western South Dakota Community Action, Community Support Programs; downloaded by the owner from state sites, kept off the repo) were run through the free page splitter.
+- Western South Dakota: found the awards schedule (2 pages), statements and findings correctly.
+- Cameron: the awards table prints its title at the bottom of the page and the "Notes" page was mistaken for the schedule. Fixed by recognising the table header and treating Notes as a separate section.
+- Community Support Programs: the awards schedule is a rotated table with an unreadable text layer. Combined mode now says so instead of guessing, and points to scanned mode or separate uploads.
+- Not yet done: the model has not read these filings. The public demo also caps uploads (reports of 7 to 15 MB are too large for it).

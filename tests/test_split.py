@@ -27,7 +27,7 @@ class SplitTests(unittest.TestCase):
     def test_split_assigns_sections_and_continues_headingless_pages(self):
         parts = split_package(self.PAGES)
         self.assertEqual(len(parts["statements"]), 4)
-        self.assertEqual(len(parts["sefa"]), 2)
+        self.assertEqual(len(parts["sefa"]), 1)       # the Notes page is not part of the schedule (real filings put notes after it)
         self.assertEqual(len(parts["prior"]), 2)      # compliance report page is not included anywhere
         self.assertNotIn("Compliance", " ".join(parts["prior"]).split("Schedule of Findings")[0])
 
@@ -62,3 +62,22 @@ class CombinedPdfTests(unittest.TestCase):
                                     adapter_factory=lambda led: RegexAdapter(led))
         self.assertEqual(status, 200)
         self.assertEqual({f["code"] for f in body["report"]["findings"]}, {"sefa_total", "sefa_vs_statements"})
+
+
+class RealWorldLayoutTests(unittest.TestCase):
+    def test_notes_to_sefa_is_not_the_schedule(self):
+        from ember_ledger.split import page_role
+        self.assertEqual(page_role("25\nOrg Inc.\nNotes to Schedule of Expenditures of Federal Awards\nNote A"), "other")
+
+    def test_table_with_title_in_footer_is_recognised(self):
+        from ember_ledger.split import page_role
+        page = ("Federal CFDA Total Federal \nFederal Grantor Program Number Expenditures\nHead Start 93.600 703,646\n"
+                "Community Services Block Grant 93.569 47,395\nTotal 750,000\n24\nOrg Inc.\nSchedule of Expenditures of Federal Awards")
+        self.assertEqual(page_role(page), "sefa")
+
+    def test_garbled_text_layer_gives_a_clear_message(self):
+        from ember_ledger.split import split_package
+        noise = ("O co co (o co .0 ri co o\n" * 20) + "T\nrn o\nE\nco Z\n"
+        with self.assertRaises(ValueError) as cm:
+            split_package([noise])
+        self.assertIn("no readable text layer", str(cm.exception))

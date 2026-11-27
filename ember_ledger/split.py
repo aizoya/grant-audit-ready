@@ -10,8 +10,9 @@ import re
 
 # Checked in this order. The first match in the top of the page wins.
 _RULES = [
+    ("other", ["notes to schedule of expenditures", "notes to the schedule of expenditures", "notes to the schedules of expenditures"]),
     ("sefa", ["schedule of expenditures of federal awards", "schedules of expenditures of federal awards"]),
-    ("prior", ["schedule of findings", "prior year findings", "prior audit findings", "summary schedule of prior audit findings", "schedule of prior audit findings",
+    ("prior", ["schedule of findings", "prior year findings", "prior audit findings", "prior year audit findings", "summary schedule of prior audit findings", "schedule of prior audit findings",
                "schedule of findings and questioned costs", "status of prior audit findings"]),
     ("other", ["report on compliance for each major", "report on internal control over financial reporting and on compliance",
                "corrective action plan", "independent auditor's report on compliance",
@@ -30,12 +31,29 @@ def _norm(text: str) -> str:
     return re.sub(r"\s+", " ", text.lower().replace("’", "'")).strip()
 
 
+_ALN = re.compile(r"\b\d{2}\.\d{3}\b")
+
+
+def _garbled(text: str) -> bool:
+    """A rotated or scanned table can have a text layer that is noise. Real words are mostly 3+ letters."""
+    words = re.findall(r"[A-Za-z]+", text)
+    if len(text.strip()) < 200:
+        return False
+    return sum(1 for w in words if len(w) >= 3) / max(len(words), 1) < 0.55
+
+
 def page_role(text: str) -> str | None:
     lines = [ln for ln in text.splitlines() if ln.strip()][:HEAD_LINES]
     head = _norm(" ".join(lines))
     for role, markers in _RULES:
         if any(m in head for m in markers):
             return role
+    # Some schedules print the title in the page footer. Recognise the table itself: the column header at the
+    # top and several award numbers on the page.
+    top = _norm(" ".join([ln for ln in text.splitlines() if ln.strip()][:6]))
+    if "federal grantor" in top and ("cfda" in top or "assistance listing" in top or "listing number" in top) \
+            and len(_ALN.findall(text)) >= 2:
+        return "sefa"
     return None
 
 
@@ -50,6 +68,9 @@ def split_package(pages: list[str]) -> dict:
         if current in out:
             out[current].append(text)
     missing = [k for k, v in out.items() if not v]
+    if missing and any(_garbled(t) for t in pages):
+        raise ValueError("Part of this PDF has no readable text layer (for example a rotated or scanned table), "
+                         "so the " + ", ".join(missing) + " section could not be found. Use scanned mode or upload the parts separately.")
     if missing:
         names = {"sefa": "the schedule of expenditures of federal awards", "statements": "the financial statements",
                  "prior": "the schedule of findings or prior findings"}
