@@ -40,7 +40,7 @@ Reference list: official SAM.gov Assistance Listings (2,644 programs, file dated
 One public Single Audit report (Western South Dakota Community Action, FY ended June 30, 2024) was split into its three parts and checked live with Muse Ember: cost $0.00162, 4 findings, 0 dropped, 17 checks passed. There is no ground truth for this report, so these are review flags, not confirmed errors:
 - Awards total vs statement revenue ($5,303,201 vs $5,376,139): a legitimate flag by design (route to a person; timing and accrual differences are common).
 - Two award-number findings (93.071, 93.048): false alarms. The schedule uses the common or act name, the official list uses a different title. The rule was too strict; it now flags only when the program name matches a different listing. Re-run on the fixed rule (cost $0.00154): those two flags are gone, 2 findings remain (the total difference and the mis-slotted prior finding), 19 checks passed.
-- One prior-finding flag: the splitter handed the report's current-year findings section to the prior-findings slot, so the flag is a mis-slot, not a real gap. Open issue.
+- One prior-finding flag: the splitter left the report's corrective action plan (which answers the current-year finding) out of the findings slot, so the flag was a mis-slot, not a real gap. Fixed in the splitter afterwards (corrective action plan now stays with the findings); the model run after that fix has not been repeated.
 The report itself stays out of the repo and the demo. This is one report, not a benchmark.
 
 ## Scanned documents (added Nov 25)

@@ -81,3 +81,11 @@ class RealWorldLayoutTests(unittest.TestCase):
         with self.assertRaises(ValueError) as cm:
             split_package([noise])
         self.assertIn("no readable text layer", str(cm.exception))
+
+
+class CorrectiveActionTests(unittest.TestCase):
+    def test_corrective_action_plan_stays_with_findings(self):
+        pages = ["Schedule of Expenditures of Federal Awards\n93.569 100", "Statement of Activities\nrevenue",
+                 "Schedule of Findings and Questioned Costs\n2024-001 condition", "CORRECTIVE ACTION PLAN (UNAUDITED)\n2024-001 we will fix it"]
+        parts = split_package(pages)
+        self.assertEqual(len(parts["prior"]), 2)
