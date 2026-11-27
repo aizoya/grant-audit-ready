@@ -1,0 +1,3 @@
+Source: SAM.gov Data Services, Assistance Listings, datagov folder, file AssistanceListings_DataGov_PUBLIC_CURRENT.csv (last modified Nov 21, 2026).
+Fetched Nov 26, 2026. Reduced to two columns (number, title); 2,644 distinct program numbers.
+Official source: https://sam.gov/data-services/Assistance%20Listings/datagov
