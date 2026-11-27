@@ -17,22 +17,22 @@ Scoring weights (from the participant guide): Impact 30%, Use of Meta AI tooling
 A grantee-side Single Audit readiness checker. The model (`muse-ember-1.0`) extracts values with exact quotes. Deterministic code does the rules, arithmetic and quote verification. A finding without a verified quote is dropped. Every run shows a cost meter. Scanned PDFs are read twice with different prompts and a finding is kept only if both reads agree.
 
 ## Facts we can prove (verify them)
-- 58 automated tests pass.
+- 69 automated tests pass.
 - Recorded live batch: 120 synthetic packages, 360 calls, 0 errors, total $0.056078, $0.000467 per package, about 158 packages per minute.
-- Recall in that run: arithmetic 18/18, date 18/18, threshold 18/18, prior finding omitted 18/18, award number 9/18 (reference list has only 3 programs).
+- Recall in that run: arithmetic 18/18, date 18/18, threshold 18/18, prior finding omitted 18/18, award number 9/18 (measured earlier, when the reference list had only 3 programs; the app now uses the official SAM.gov list of 2,644 programs, Nov 21, 2026, not yet re-measured).
 - False alarms: 0 flagged of 30 clean packages.
 - Scanned-mode live probe: $0.0024, 11 seconds.
 - No secrets in the repo. Public demo has cost caps, an hourly limit per IP, and a kill switch.
 
 ## Unknowns and weak spots (we know these)
-- All test documents are synthetic. No real Federal Audit Clearinghouse PDFs yet.
-- ALN (award number) reference list covers 3 programs only.
+- Model tests use synthetic documents only. Three real public Single Audits (Cameron Community Action Agency, Western South Dakota Community Action, Community Support Programs) were run through the free page splitter only: it handled one, we fixed two layout bugs it exposed, and one has an unreadable rotated table (see README). The model has not read a real filing yet; the public demo's upload cap is smaller than two of them.
+- The 120-package result is an earlier synthetic test, not proof on real filings.
 - Template B was used to fix bugs, so it is no longer fully held out.
 - Market size and prices ($49 per package, firm plan) are not validated. Market numbers are left off the public page on purpose.
 - Credits: $10 limit; going over disqualifies. Spend so far is tracked in the Meta Usage page.
 - App Store and Google Play are "coming soon" only.
 - Default branch is still `claude/foundation`; the submitted branch is not chosen yet.
-- Teaser video and 3-minute demo video are not recorded yet.
+- The 48-second teaser (AI voice, captions, no presenter) is on the front page; the 3-minute judging demo video is scripted (docs/DEMO_SCRIPT.md) but not recorded.
 
 ## Questions for reviewers
 1. Score each criterion 1-10 and give one sentence why.
