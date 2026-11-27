@@ -14,7 +14,7 @@ if len(sys.argv) > 2:
 CAP_JS = """
 (()=>{if(window.__capInit)return;window.__capInit=true;
 const mk=()=>{const b=document.createElement('div');b.id='__cap';b.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:99999;padding:18px 48px 22px;background:rgba(18,16,12,.88);color:#fff;font:600 28px/1.35 Georgia,serif;text-align:center;min-height:84px';document.documentElement.appendChild(b);
-const g=document.createElement('div');g.id='__badge';g.textContent='Synthetic documents only \\u00b7 recorded Muse Ember runs';g.style.cssText='position:fixed;bottom:104px;right:14px;z-index:99999;background:rgba(18,16,12,.82);color:#f3e9d2;font:600 15px/1 system-ui,sans-serif;padding:8px 12px;border-radius:8px';document.documentElement.appendChild(g)};
+const g=document.createElement('div');g.id='__badge';g.textContent='Synthetic documents only \\u00b7 recorded runs on synthetic packages';g.style.cssText='position:fixed;bottom:104px;right:14px;z-index:99999;background:rgba(18,16,12,.82);color:#f3e9d2;font:600 15px/1 system-ui,sans-serif;padding:8px 12px;border-radius:8px';document.documentElement.appendChild(g)};
 if(document.body)mk();else document.addEventListener('DOMContentLoaded',mk);
 window.__cap=t=>{const b=document.getElementById('__cap');if(b)b.textContent=t}})();
 """

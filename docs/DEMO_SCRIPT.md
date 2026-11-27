@@ -1,5 +1,7 @@
 # 3-minute judging demo script (synthetic data only)
 
+Source of truth for the spoken lines: `docs/DEMO_NARRATION.json` (trimmed Nov 27: about 211 words, 138 s planned, so the voiced cut lands near 2:30 with room for page loads). The table below is the scene plan. Both samples on screen are recorded runs and are labelled that way. The export must pass `python3 scripts/demo/check_video.py FILE.mp4` (audio present, under 3:00, 1080p) before it is called ready.
+
 Target 2:50. Record the screen at 1080p, one take per scene, voice from the same ElevenLabs voice or live narration. Never show real filings or keys. Every number below comes from the recorded run on the Proof tab or from what the live app shows on screen at that moment.
 
 | Time | Screen | Say |
