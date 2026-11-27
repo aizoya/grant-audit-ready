@@ -74,6 +74,7 @@ class Ledger:
     spent: float = 0.0
     calls: int = 0
     by_label: dict = field(default_factory=dict)
+    trace: list = field(default_factory=list)  # one row per model call: label, tokens, cost (no prompt text)
     verified_results: int = 0
     _lock: threading.Lock = field(default_factory=threading.Lock, repr=False, compare=False)
 
@@ -92,6 +93,9 @@ class Ledger:
             self.spent += c
             self.calls += 1
             self.by_label[label] = self.by_label.get(label, 0.0) + c
+            self.trace.append({"call": self.calls, "label": label, "input_tokens": usage.input_tokens,
+                               "cached_tokens": usage.cached_tokens, "output_tokens": usage.output_tokens,
+                               "tier": tier_for(usage.input_tokens), "cost_usd": round(c, 8)})
         return c
 
     def mark_verified(self, n: int = 1) -> None:

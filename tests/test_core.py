@@ -150,3 +150,13 @@ def test_timeliness():
 def test_sefa_total():
     assert check_sefa_total([500_000, 750_000], 1_250_000).passed
     assert not check_sefa_total([500_000, 750_000], 1_300_000).passed
+
+
+def test_ledger_trace_rows_match_spend():
+    from ember_ledger.ledger import Ledger, Usage
+    led = Ledger()
+    led.record("extract_sefa", Usage(1000, 200, 400))
+    led.record("extract_fs", Usage(500, 100))
+    assert [r["call"] for r in led.trace] == [1, 2]
+    assert led.trace[0]["cached_tokens"] == 400 and led.trace[0]["tier"] == "short"
+    assert abs(sum(r["cost_usd"] for r in led.trace) - led.spent) < 1e-9
