@@ -16,7 +16,7 @@ Current gaps (honest): date 4/10, threshold-flip 0/10 (the stand-in extractor do
 | Check | Template A (dev, seeds 0-4) | Template B (different wording, 5 programs, seeds 100-104) |
 |---|---|---|
 | arithmetic | 5/5 | 5/5 |
-| award ID | 5/5 | 10/18 on the 120-package run (Nov 26, 2026) with the official SAM.gov list (Nov 21, 2026, `data/aln.SOURCE.txt`); the older 3/5 was measured with a 3-program list |
+| award ID | 5/5 | 3/5 (measured with a 3-program reference list; superseded by the 120-package benchmark below) |
 | dates | 5/5 | 5/5 |
 | threshold | 5/5 | 5/5 |
 | prior finding omitted | not exercised | 5/5 |
@@ -24,6 +24,17 @@ Current gaps (honest): date 4/10, threshold-flip 0/10 (the stand-in extractor do
 
 Cost: about $0.0004 per report. Caveats: template B was used to find two logic bugs (unknown-ALN treated as mismatch; prior-finding matching on free-text reference), which were then fixed, so B is no longer fully held out. These are generated documents, not real audits.
 
+
+## 120-package synthetic benchmark (Nov 26, 2026; official ALN list)
+Separate from the five-sample table above. Recorded in `public/batch-run.json`; produced by the token-gated `/api/batch` (below), 3 runs of 40 generated packages (seeds 4000, 5000, 6000), live Muse Ember, synthetic documents only.
+| Measure | Result |
+|---|---|
+| Packages / model calls / errors | 120 / 360 / 0 |
+| Total cost / per package | $0.056152 / about $0.0005 |
+| Arithmetic, date, threshold, omitted prior finding | 18/18 each |
+| Award number | 10/18 |
+| Clean packages flagged | 0 of 30 |
+Reference list: official SAM.gov Assistance Listings (2,644 programs, file dated Nov 21, 2026). Not proof on real filings. A first run on the same day flagged all clean packages because `data/aln.csv` was not deployed; fixed in `fa058d6` and re-run.
 
 ## Scanned documents (added Nov 25)
 A PDF with no text layer is sent to Muse Ember as a native PDF input (page images). It is read twice with different instructions.
