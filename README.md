@@ -36,6 +36,13 @@ Separate from the five-sample table above. Recorded in `public/batch-run.json`; 
 | Clean packages flagged | 0 of 30 |
 Reference list: official SAM.gov Assistance Listings (2,644 programs, file dated Nov 21, 2026). Not proof on real filings. A first run on the same day flagged all clean packages because `data/aln.csv` was not deployed; fixed in `fa058d6` and re-run.
 
+## First live run on a real public report (Nov 26, 2026; results only)
+One public Single Audit report (Western South Dakota Community Action, FY ended June 30, 2024) was split into its three parts and checked live with Muse Ember: cost $0.00162, 4 findings, 0 dropped, 17 checks passed. There is no ground truth for this report, so these are review flags, not confirmed errors:
+- Awards total vs statement revenue ($5,303,201 vs $5,376,139): a legitimate flag by design (route to a person; timing and accrual differences are common).
+- Two award-number findings (93.071, 93.048): false alarms. The schedule uses the common or act name, the official list uses a different title. The rule was too strict; it now flags only when the program name matches a different listing. Re-run result below.
+- One prior-finding flag: the splitter handed the report's current-year findings section to the prior-findings slot, so the flag is a mis-slot, not a real gap. Open issue.
+The report itself stays out of the repo and the demo. This is one report, not a benchmark.
+
 ## Scanned documents (added Nov 25)
 A PDF with no text layer is sent to Muse Ember as a native PDF input (page images). It is read twice with different instructions.
 Read 1 becomes the page text the pipeline quotes from. A finding is kept only if its quote matches read 1 and every number in the quote

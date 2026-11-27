@@ -118,6 +118,22 @@ def _same_program(listed: str, schedule_name: str) -> bool:
     return len(ta & tb) / min(len(ta), len(tb)) > 0.5
 
 
+def _other_listing(program: str, known: dict, exclude: str):
+    p = program.lower()
+    tp = _tokens(p)
+    best = None
+    for num, title in known.items():
+        if num == exclude:
+            continue
+        if title in p or (len(title) > 8 and p in title):
+            return (num, title)
+        tt = _tokens(title)
+        shared = tp & tt
+        if len(shared) >= 2 and len(shared) / min(len(tp), len(tt)) > 0.6 and best is None:
+            best = (num, title)
+    return best
+
+
 def check_aln_program(program: str, aln: str, known: dict = None) -> Check:
     known = KNOWN_ALN if known is None else known
     name = known.get(aln)
@@ -129,8 +145,16 @@ def check_aln_program(program: str, aln: str, known: dict = None) -> Check:
                 if known_name in program.lower():
                     return Check("aln_program_match", False, f"'{program}' is listed under ALN {known_aln}; schedule says {aln}")
         return Check("aln_program_match", True, f"ALN {aln} and '{program}' are not in the reference list: not checked")
-    ok = _same_program(name, program)
-    return Check("aln_program_match", ok, f"ALN {aln} is listed as '{name}'; schedule says '{program}'")
+    if _same_program(name, program):
+        return Check("aln_program_match", True, f"ALN {aln} is listed as '{name}'; schedule says '{program}'")
+    # Titles differ. Real schedules use common names, act names and abbreviations, so a different title alone is not a
+    # finding. Flag only when the program name clearly belongs to ANOTHER listing (evidence the number is wrong).
+    other = _other_listing(program, known, aln)
+    if other:
+        return Check("aln_program_match", False,
+                     f"ALN {aln} is listed as '{name}'; schedule says '{program}', which matches ALN {other[0]} ('{other[1]}')")
+    return Check("aln_program_match", True,
+                 f"ALN {aln} is listed as '{name}'; schedule says '{program}' (title differs, no other listing matches: not flagged)")
 
 
 def check_report_date(fy_end: date, report_date: date) -> Check:

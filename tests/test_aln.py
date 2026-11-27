@@ -42,3 +42,18 @@ class AlnListTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class RealWorldNamesTests(unittest.TestCase):
+    """Real schedules use common names and act names; a differing title alone is not a finding (first real-report run, Nov 26)."""
+
+    def test_common_names_not_flagged(self):
+        from ember_ledger.checks import check_aln_program, KNOWN_ALN
+        if "93.071" not in KNOWN_ALN:
+            self.skipTest("official list not loaded")
+        self.assertTrue(check_aln_program("Medicare Improvements for Patients and Providers Act", "93.071").passed)
+        self.assertTrue(check_aln_program("Senior Medicare Patrol", "93.048").passed)
+
+    def test_swapped_number_still_flagged(self):
+        from ember_ledger.checks import check_aln_program
+        self.assertFalse(check_aln_program("Head Start Cluster", "93.569").passed)

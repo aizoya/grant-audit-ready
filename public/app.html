@@ -262,7 +262,7 @@ footer{background:var(--ink);color:#C8D3EA;border-top-color:var(--gold)}footer a
     <thead><tr><th>Check</th><th>Template A (5 packs)</th><th>Template B (5 packs, different wording)</th></tr></thead>
     <tbody>
       <tr><td class="n">Arithmetic</td><td>5 / 5</td><td>5 / 5</td></tr>
-      <tr><td class="n">Award number</td><td>5 / 5</td><td>3 / 5 (measured when the reference list had only 3 programs; the app now uses the official SAM.gov list, not yet re-measured)</td></tr>
+      <tr><td class="n">Award number</td><td>5 / 5</td><td>3 / 5 (measured with a 3-program reference list; see the 120-package run above for the official list)</td></tr>
       <tr><td class="n">Dates</td><td>5 / 5</td><td>5 / 5</td></tr>
       <tr><td class="n">Audit threshold</td><td>5 / 5</td><td>5 / 5</td></tr>
       <tr><td class="n">Prior finding unanswered</td><td>not measured</td><td>5 / 5</td></tr>
@@ -390,7 +390,7 @@ fetch("/batch-run.json").then(r=>r.ok?r.json():null).then(b=>{
    `<div class="m"><b>$${b.cost_per_package_usd.toFixed(4)}</b><span>Per package</span></div>`+
    `<div class="m"><b>${b.packages_per_minute}</b><span>Packages per minute</span></div>`+
    `<div class="m"><b>${b.false_alarms.flagged} of ${b.false_alarms.packages}</b><span>False alarms on clean packages</span></div>`;
-  document.getElementById("scalerows").innerHTML=Object.keys(b.recall).map(k=>`<tr><td class="n">${NM[k]||k}</td><td>${b.recall[k].found} / ${b.recall[k].of}${k==="award_id"?" (measured with a 3-program list; the app now uses the official SAM.gov list, not yet re-measured)":""}</td></tr>`).join("");
+  document.getElementById("scalerows").innerHTML=Object.keys(b.recall).map(k=>`<tr><td class="n">${NM[k]||k}</td><td>${b.recall[k].found} / ${b.recall[k].of}</td></tr>`).join("");
   document.getElementById("scalenote").textContent=`Recorded ${b.recorded_at}: ${b.calls} calls to ${b.model}, ${b.errors} errors, 3 runs of 40 packages. Packages are generated with errors injected (template B wording) plus clean packages. Synthetic documents, not real audits.`;
 }).catch(()=>{});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));}
