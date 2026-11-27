@@ -50,6 +50,7 @@ def _one(i, seed0, adapter_factory):
             hit = any(is_hit(truth, Finding(kind, q)) for q in quotes)
         return {"i": i, "kind": kind, "hit": hit, "findings": len(rep.findings), "cost": round(led.spent, 6), "calls": led.calls}
     return {"i": i, "kind": kind, "false_alarm": len(rep.findings) > 0, "findings": len(rep.findings),
+            "codes": [f.code for f in rep.findings],
             "cost": round(led.spent, 6), "calls": led.calls}
 
 
