@@ -1,0 +1,12 @@
+{
+  "voice_note": "male ElevenLabs voice, one take per segment; generate after the monthly character reset (about Nov 29 6 pm PT)",
+  "segments": [
+    {"id": "s1", "sec": 15, "text": "Organizations subject to a Single Audit have to get their package right. Grant Audit Ready checks it before the auditor does, and it never shows a finding it cannot quote."},
+    {"id": "s2", "sec": 28, "text": "Here is a synthetic package. The model reads the awards schedule, the financial statements and last year's findings, and returns values with exact quotes. It does no arithmetic."},
+    {"id": "s3", "sec": 36, "text": "Plain code adds the lines: one million, two hundred seventy-seven thousand, four hundred dollars, against a stated total of one million, two hundred forty thousand. The finding carries the quote and the page. If the quote is not on the page, the finding is dropped, and counted."},
+    {"id": "s4", "sec": 26, "text": "Every run shows what it cost. This one cost less than a twentieth of a cent. The clean package gives no findings on this test package."},
+    {"id": "s5", "sec": 30, "text": "Scanned pages are read twice. A finding survives only if both reads agree. Otherwise it is dropped, and we say so. We label this mode lower assurance. In a live probe on synthetic scanned files, three documents cost about a quarter of a cent."},
+    {"id": "s6", "sec": 30, "text": "On the Proof tab: an earlier synthetic test of 120 generated packages cost about six cents on Muse Ember. It caught every arithmetic, date, threshold and prior-finding error, and ten of eighteen wrong award numbers, with no false alarms on thirty clean packages. It is not proof on real filings. We show what we miss, and what we have not tested: real filings at scale, and handwriting."},
+    {"id": "s7", "sec": 10, "text": "Grant Audit Ready, by AIZOYA. Try it at grantaudit.aizoya.com."}
+  ]
+}
