@@ -18,8 +18,8 @@ A grantee-side Single Audit readiness checker. The model (`muse-ember-1.0`) extr
 
 ## Facts we can prove (verify them)
 - 69 automated tests pass.
-- Recorded live batch: 120 synthetic packages, 360 calls, 0 errors, total $0.056078, $0.000467 per package, about 158 packages per minute.
-- Recall in that run: arithmetic 18/18, date 18/18, threshold 18/18, prior finding omitted 18/18, award number 9/18 (measured earlier, when the reference list had only 3 programs; the app now uses the official SAM.gov list of 2,644 programs, Nov 21, 2026, not yet re-measured).
+- Recorded live batch: 120 synthetic packages, 360 calls, 0 errors, total $0.056152, $0.000468 per package, about 167 packages per minute (re-run Nov 26, 2026 with the official ALN list).
+- Recall in that run: arithmetic 18/18, date 18/18, threshold 18/18, prior finding omitted 18/18, award number 10/18, false alarms 0 of 30 clean packages, with the official SAM.gov list (2,644 programs, Nov 21, 2026). Found during this re-run: `data/aln.csv` was gitignored, so the deployed functions silently used the 3-program fallback and flagged 30/30 clean packages; fixed in fa058d6 (file now tracked and bundled), then re-run.
 - False alarms: 0 flagged of 30 clean packages.
 - Scanned-mode live probe: $0.0024, 11 seconds.
 - No secrets in the repo. Public demo has cost caps, an hourly limit per IP, and a kill switch.
