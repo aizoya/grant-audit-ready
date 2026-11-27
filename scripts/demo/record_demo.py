@@ -14,7 +14,7 @@ if len(sys.argv) > 2:
 CAP_JS = """
 (()=>{if(window.__capInit)return;window.__capInit=true;
 const mk=()=>{const b=document.createElement('div');b.id='__cap';b.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:99999;padding:18px 48px 22px;background:rgba(18,16,12,.88);color:#fff;font:600 28px/1.35 Georgia,serif;text-align:center;min-height:84px';document.documentElement.appendChild(b);
-const g=document.createElement('div');g.id='__badge';g.textContent='Synthetic documents only \\u00b7 recorded runs on synthetic packages';g.style.cssText='position:fixed;bottom:104px;right:14px;z-index:99999;background:rgba(18,16,12,.82);color:#f3e9d2;font:600 15px/1 system-ui,sans-serif;padding:8px 12px;border-radius:8px';document.documentElement.appendChild(g)};
+const g=document.createElement('div');g.id='__badge';g.textContent='Built during the Muse Ember Hackathon \\u00b7 synthetic documents only \\u00b7 recorded Muse Ember runs';g.style.cssText='position:fixed;bottom:104px;right:14px;z-index:99999;background:rgba(18,16,12,.82);color:#f3e9d2;font:600 15px/1 system-ui,sans-serif;padding:8px 12px;border-radius:8px';document.documentElement.appendChild(g)};
 if(document.body)mk();else document.addEventListener('DOMContentLoaded',mk);
 window.__cap=t=>{const b=document.getElementById('__cap');if(b)b.textContent=t}})();
 """
@@ -43,9 +43,11 @@ async def main():
         c = await b.new_context(viewport={"width": 1920, "height": 1080}, record_video_dir=str(out), record_video_size={"width": 1920, "height": 1080})
         await c.add_init_script(CAP_JS)
         pg = await c.new_page()
+        t0 = time.monotonic(); timeline = {}
         base = "http://127.0.0.1:8765/"
         seg = {s["id"]: s for s in NARR}
         async def scene(sid, acts):
+            timeline[sid] = round(time.monotonic() - t0, 3)
             t = asyncio.create_task(captions(pg, seg[sid], 0))
             await acts()
             await t
@@ -82,6 +84,8 @@ async def main():
         await pg.goto(base + "index.html"); await pg.wait_for_timeout(300)
         async def a7(): await asyncio.sleep(0.1)
         await scene("s7", a7)
+        timeline["end"] = round(time.monotonic() - t0, 3)
+        (out / "timeline.json").write_text(json.dumps(timeline))
         await pg.screenshot(path=str(out / "poster.png"))
         await c.close(); await b.close()
     srv.shutdown()

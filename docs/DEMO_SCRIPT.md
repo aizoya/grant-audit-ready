@@ -20,3 +20,5 @@ Before recording
 - Do not claim a win, a customer, or judge feedback.
 
 Recording: `python3 scripts/demo/record_demo.py OUTDIR [durations.json]` makes the captioned screen capture from `docs/DEMO_NARRATION.json`. The voice is added after the ElevenLabs monthly reset (about Nov 29, 6 pm PT); the character allowance was used up on Nov 26.
+
+Final render (Nov 27): narration generated as 7 clips (one per segment, ElevenLabs voice "Benjamin", 83 s of speech). `record_demo.py` now logs each scene's real start in `timeline.json`; `python3 scripts/demo/mux.py CAPDIR CLIPDIR OUT.mp4` places each clip at its scene start plus 0.6 s, so page-load delays cannot drift the voice off the captions. The on-screen badge states the work was built during the hackathon (a rule requirement).

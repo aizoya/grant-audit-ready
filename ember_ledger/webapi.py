@@ -117,7 +117,7 @@ def handle_check(payload: dict, env: dict | None = None, ip: str = "unknown", ad
     except Exception:
         return 502, {"ok": False, "error": "model_error", "message": "The model call failed. Nothing was stored. Try again."}
     body = {"ok": True, "mode": "live", "model": "muse-ember-1.0", "calls": ledger.calls,
-            "report": report.to_dict(), "docs": docs}
+            "trace": ledger.trace, "report": report.to_dict(), "docs": docs}
     if scanned_slots:
         body["scanned"] = scanned_slots
         body["assurance"] = ASSURANCE

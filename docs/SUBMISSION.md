@@ -1,27 +1,42 @@
-# Submission pack: Grant Audit Ready (Meta Muse Ember Hackathon)
+# Submission packet: Grant Audit Ready (Muse Ember Hackathon)
 
-Deadline: Dec 2, 2026, 9:00 PM ET (6:00 PM PT). Nothing is submitted. Final submission needs Franklyn's approval.
+Status: NOT submitted. Franklyn submits. Deadline: **Dec 2, 6:00 PM PT** (9:00 PM ET), per the participant guide and the submit page.
+Fields below were read from the live submit form on Nov 27 (nothing was typed into it).
 
-## Project description (draft, about 150 words)
-Grant Audit Ready is a readiness checker for organizations that spend federal grant money and face a Single Audit. A grantee uploads three documents: the schedule of federal awards, the financial statements and last year's findings. Muse Ember reads them and returns values with exact quotes. It does no arithmetic. Plain code adds the lines, checks award numbers against the official SAM.gov list, tests the audit threshold, dates and unanswered prior findings, and verifies every quote against the page. A finding with no verified quote is dropped and counted. Scanned documents are read twice and a finding survives only if both reads agree. Every report shows what it cost. In a synthetic test of 120 generated packages the run cost about six cents: all arithmetic, date, threshold and prior-finding errors caught, 10 of 18 wrong award numbers, no false alarms on 30 clean packages. It is a readiness aid, not an audit opinion, and it has not been proven on real filings.
-
-## Use of Meta AI tooling (for the 25% criterion)
-- Muse Ember through the Meta Model API with strict JSON-schema output, temperature 0, and native PDF input for scanned pages.
-- Used for extraction with quotes only. Arithmetic, rules and quote verification are code, so the model cannot invent a finding.
-- Two independent reads of scanned pages, with agreement required.
-- Cost ledger with a hard stop, per-request cap and kill switch; recorded batch run through the same API.
-
-## Checklist
-| Item | Status | Owner |
+## Required fields and status
+| Field | Status | Value / owner |
 |---|---|---|
-| Public repo (aizoya/grant-audit-ready) | public; latest work on `claude/scanned-mode`, default branch is `claude/foundation` | Franklyn decides which branch is submitted |
-| Live link | https://grantaudit.aizoya.com (serves `claude/scanned-mode`) | done |
-| 3-minute demo video | silent captioned cut done; voice generated; waiting for the mp3 to reach the workspace, then finish and pre-flight | Claude (needs file move) |
-| Project description | draft above | Franklyn approves |
-| Usage screenshot (Meta Model API Usage page, Nov 23 - Dec 2, Muse Ember filter, total tokens and spend) | not taken | Franklyn (login) |
-| Prompt/token trace with amount spent | export from the Meta Usage page; our own per-run costs are in `public/batch-run.json`, `public/demo-runs.json` and the README | Franklyn exports, Claude summarizes |
-| Muse Code trajectory export | only if Muse Code was used; it was not | n/a |
-| Meta credits | confirm claimed by Nov 30, 12:00 PM ET and the key works through Dec 7; spend so far about $0.2 against our $9 stop | Franklyn |
-| New-work check | first commit Nov 24, 2026 (after the Nov 23 window opened) | done |
-| No secrets in repo, no real filings in repo or video | verified by search before each push | done |
-| Final submission form | link not yet known | Franklyn |
+| Team Name | ready | Grant Audit Ready (solo: Franklyn Rosario) |
+| Project Description (3,000 chars) | draft below | paste |
+| Public GitHub Repository | ready | https://github.com/aizoya/grant-audit-ready/tree/claude/scanned-mode (see note on default branch) |
+| 3 Minute Demo Video (YouTube-style URL) | render pending audio | Franklyn uploads the mp4 (unlisted is fine) and pastes the link |
+| Usage screenshot (Nov 23 to Dec 2, filter Muse Ember, total tokens and spend) | Franklyn | dev.meta.ai Usage page |
+| Muse Code trajectory JSON | only if Muse Code was used | not used for this build, as far as the repo shows |
+| Team ID used for credit redemption | Franklyn | from dev.meta.ai |
+| Describe your use of Meta products (3,000) | draft below | paste |
+| Why are Meta's models important (3,000) | draft below | paste |
+| Survey questions (likelihood, opinion, obstacles) | Franklyn | his own opinion |
+| X post link | optional | skip or Franklyn posts |
+| Prompt/token trace (rule "Proof of usage") | partial | `public/batch-run.json` (360 calls, $0.056152); per-call token rows now returned as `trace` by `/api/check` (commit 8c45677, not yet deployed) |
+
+## Rule checks
+- Repo public: yes. Default branch is still `claude/foundation` (Nov 25 README). Either submit the branch URL above or make `claude/scanned-mode` the default (Franklyn's call: it changes repo settings).
+- Demo must show only what was built during the event: first commit Nov 24, 2026; video badge reads "Built during the Muse Ember Hackathon".
+- Avoid-list: not a dashboard, not basic RAG, not an image analyzer. Core is extraction with quotes plus deterministic verification.
+- Spend stays under $10: confirm on the Usage page screenshot.
+- Never claim accuracy on real filings: the model has read one real public report once; every number in the video is from synthetic packages.
+
+## Draft: Project Description
+Grant Audit Ready checks a nonprofit's or local government's Single Audit package before the auditor does. Upload the awards schedule (SEFA), the financial statements and last year's findings, or one combined report, and get a readiness report where every finding quotes the page it came from.
+
+Muse Ember only reads: it returns values with exact quotes through strict JSON schemas. Plain code does the arithmetic, applies the rules (SEFA totals, statements vs awards, Single Audit threshold, report dates, period match, award numbers against the official SAM.gov list of 2,644 programs, prior findings left unanswered) and verifies every quote against the source text. A finding whose quote is not on the page is dropped and counted. Scanned PDFs go to Ember as native PDF input and are read twice; a finding survives only if both reads agree, and the report labels that mode lower assurance.
+
+Every run shows its cost. In a recorded synthetic benchmark, 120 generated packages took 360 Ember calls, $0.056 in total (about $0.0005 per package, about 167 packages per minute), caught 18/18 arithmetic, date, threshold and prior-finding errors, 10/18 wrong award numbers, and raised no false alarms on 30 clean packages. These are synthetic documents, not proof on real filings; we say so in the app and the video.
+
+Who it is for: finance leads and the CPAs who prepare Single Audit packages. Errors found in audit are expensive; found before, they are a fix.
+
+## Draft: Describe your use of Meta products
+Runtime is muse-ember-1.0 only, through the Meta Model API Responses endpoint, with a deterministic orchestrator (no larger planner model). We use: strict JSON-schema structured output (every value must carry its quote), native PDF input for scanned pages with a two-read agreement check, temperature 0 and minimal reasoning effort for extraction, and a stable system-prompt prefix with 24-hour prompt-cache retention. A cost ledger preflights every call against a hard stop and records real usage from the response, so each report prints its own cost.
+
+## Draft: Why are Meta's models important
+The product only works at Ember's unit cost. A screening pass a grantee runs ten times while fixing a package has to cost fractions of a cent, and a CPA firm screening hundreds of clients needs throughput, not a frontier model. Ember is cheap and fast enough to read every page, and reliable enough at quoting that code can verify each answer, which is what makes the "no quote, no finding" rule affordable.
