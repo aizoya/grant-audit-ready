@@ -45,6 +45,8 @@ One public Single Audit report (Western South Dakota Community Action, FY ended 
 - One prior-finding flag: the splitter left the report's corrective action plan (which answers the current-year finding) out of the findings slot, so the flag was a mis-slot, not a real gap. Fixed in the splitter afterwards (corrective action plan now stays with the findings); the model run after that fix has not been repeated.
 The report itself stays out of the repo and the demo. This is one report, not a benchmark.
 
+**Re-run Nov 27, 2026 after the splitter fix (same report, same three parts, results only):** cost $0.00162, 1 verified finding, 20 checks passed, 0 dropped for a missing quote. The remaining finding is the legitimate route-to-human: awards schedule total $5,303,201 vs financial-statement federal revenue $5,376,139 (differences can be timing or accrual items). The earlier false prior-finding flag is gone. One report, no ground truth: this shows the false alarms are fixed, not a recall measurement.
+
 ## Scanned documents (added Nov 25)
 A PDF with no text layer is sent to Muse Ember as a native PDF input (page images). It is read twice with different instructions.
 Read 1 becomes the page text the pipeline quotes from. A finding is kept only if its quote matches read 1 and every number in the quote
