@@ -57,3 +57,16 @@ class RealWorldNamesTests(unittest.TestCase):
     def test_swapped_number_still_flagged(self):
         from ember_ledger.checks import check_aln_program
         self.assertFalse(check_aln_program("Head Start Cluster", "93.569").passed)
+
+
+class UnlistedNumberTests(unittest.TestCase):
+    def test_unlisted_number_with_listed_program_name_is_flagged(self):
+        from ember_ledger.checks import check_aln_program, KNOWN_ALN
+        n = next(a for a in KNOWN_ALN if KNOWN_ALN[a] == "head start")
+        bad = "93.999" if "93.999" not in KNOWN_ALN else "93.998"
+        self.assertFalse(check_aln_program("Head Start Cluster", bad).passed)
+        self.assertTrue(check_aln_program("Head Start Cluster", n).passed)
+
+    def test_unlisted_number_with_unknown_program_not_flagged(self):
+        from ember_ledger.checks import check_aln_program
+        self.assertTrue(check_aln_program("Zebra Conservation Initiative", "93.999").passed)

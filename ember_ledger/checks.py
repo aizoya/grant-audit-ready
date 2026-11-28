@@ -134,6 +134,19 @@ def _other_listing(program: str, known: dict, exclude: str):
     return best
 
 
+def _listed_by_name(program: str, known: dict):
+    """The single listing whose whole title appears in the program name (longest title wins; ties mean no answer)."""
+    p = program.lower()
+    best, tie = None, False
+    for num, title in known.items():
+        if len(title) >= 8 and title in p:
+            if best is None or len(title) > len(best[1]):
+                best, tie = (num, title), False
+            elif len(title) == len(best[1]):
+                tie = True
+    return None if tie else best
+
+
 def check_aln_program(program: str, aln: str, known: dict = None) -> Check:
     known = KNOWN_ALN if known is None else known
     name = known.get(aln)
@@ -144,6 +157,11 @@ def check_aln_program(program: str, aln: str, known: dict = None) -> Check:
             for known_aln, known_name in known.items():
                 if known_name in program.lower():
                     return Check("aln_program_match", False, f"'{program}' is listed under ALN {known_aln}; schedule says {aln}")
+        # The number is not in the list. If the program NAME is a listed title (whole title inside the name, one clear
+        # best match), the number is wrong for it: the same finding as a swapped number.
+        hit = _listed_by_name(program, known)
+        if hit and hit[0] != aln:
+            return Check("aln_program_match", False, f"'{program}' is listed under ALN {hit[0]} ('{hit[1]}'); schedule says {aln}, which is not a listed number")
         return Check("aln_program_match", True, f"ALN {aln} and '{program}' are not in the reference list: not checked")
     if _same_program(name, program):
         return Check("aln_program_match", True, f"ALN {aln} is listed as '{name}'; schedule says '{program}'")
