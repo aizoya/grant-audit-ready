@@ -36,6 +36,8 @@ Separate from the five-sample table above. Recorded in `public/batch-run.json`; 
 | Clean packages flagged | 0 of 30 |
 Reference list: official SAM.gov Assistance Listings (2,644 programs, file dated Nov 21, 2026). Not proof on real filings. A first run on the same day flagged all clean packages because `data/aln.csv` was not deployed; fixed in `fa058d6` and re-run.
 
+**Re-run Nov 27, 2026 (after the ALN-title rule and splitter fixes, commit 24676c0):** same 120 packages and seeds, 360 calls, 0 errors, $0.056425 total. Results are unchanged: arithmetic, date, threshold and prior-finding 18/18 each, award number 10/18, 0 of 30 clean packages flagged. The fixes did not move recall on synthetic data; they matter on real schedules (see below). Award-number recall is the weak spot and is reported as measured.
+
 ## First live run on a real public report (Nov 26, 2026; results only)
 One public Single Audit report (Western South Dakota Community Action, FY ended June 30, 2024) was split into its three parts and checked live with Muse Ember: cost $0.00162, 4 findings, 0 dropped, 17 checks passed. There is no ground truth for this report, so these are review flags, not confirmed errors:
 - Awards total vs statement revenue ($5,303,201 vs $5,376,139): a legitimate flag by design (route to a person; timing and accrual differences are common).

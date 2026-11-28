@@ -1,1 +1,87 @@
-{"model":"muse-ember-1.0","recorded_at":"2026-11-26","packages":120,"errors":0,"calls":360,"total_cost_usd":0.056152,"cost_per_package_usd":0.000468,"server_seconds":43.0,"packages_per_minute":167,"recall":{"arithmetic":{"found":18,"of":18},"award_id":{"found":10,"of":18},"date":{"found":18,"of":18},"threshold":{"found":18,"of":18},"prior_finding_omitted":{"found":18,"of":18}},"false_alarms":{"packages":30,"flagged":0},"reference_list":"official SAM.gov Assistance Listings (2,644 programs, file dated Nov 21, 2026)","runs":[{"seed":4000,"packages":40,"seconds":14.5,"cost":0.018729},{"seed":5000,"packages":40,"seconds":13.1,"cost":0.0186},{"seed":6000,"packages":40,"seconds":15.4,"cost":0.018823}]}
+{
+ "model": "muse-ember-1.0",
+ "recorded_at": "2026-11-26",
+ "packages": 120,
+ "errors": 0,
+ "calls": 360,
+ "total_cost_usd": 0.056152,
+ "cost_per_package_usd": 0.000468,
+ "server_seconds": 43.0,
+ "packages_per_minute": 167,
+ "recall": {
+  "arithmetic": {
+   "found": 18,
+   "of": 18
+  },
+  "award_id": {
+   "found": 10,
+   "of": 18
+  },
+  "date": {
+   "found": 18,
+   "of": 18
+  },
+  "threshold": {
+   "found": 18,
+   "of": 18
+  },
+  "prior_finding_omitted": {
+   "found": 18,
+   "of": 18
+  }
+ },
+ "false_alarms": {
+  "packages": 30,
+  "flagged": 0
+ },
+ "reference_list": "official SAM.gov Assistance Listings (2,644 programs, file dated Nov 21, 2026)",
+ "runs": [
+  {
+   "seed": 4000,
+   "packages": 40,
+   "seconds": 14.5,
+   "cost": 0.018729
+  },
+  {
+   "seed": 5000,
+   "packages": 40,
+   "seconds": 13.1,
+   "cost": 0.0186
+  },
+  {
+   "seed": 6000,
+   "packages": 40,
+   "seconds": 15.4,
+   "cost": 0.018823
+  }
+ ],
+ "rerun_2026-11-27": {
+  "note": "Re-measured after the ALN-title rule and splitter fixes (commit 24676c0). Synthetic data only.",
+  "packages": 120,
+  "calls": 360,
+  "errors": 0,
+  "total_cost_usd": 0.056425,
+  "recall": {
+   "arithmetic": "18/18",
+   "award_id": "10/18",
+   "date": "18/18",
+   "threshold": "18/18",
+   "prior_finding_omitted": "18/18"
+  },
+  "false_alarms": "0 of 30",
+  "seeds": {
+   "4000": {
+    "cost": 0.019249,
+    "award_id": "5/6"
+   },
+   "5000": {
+    "cost": 0.018492,
+    "award_id": "2/6"
+   },
+   "6000": {
+    "cost": 0.018684,
+    "award_id": "3/6"
+   }
+  }
+ }
+}
