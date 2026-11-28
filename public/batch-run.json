@@ -4,15 +4,15 @@
  "packages": 120,
  "errors": 0,
  "calls": 360,
- "total_cost_usd": 0.055977,
- "cost_per_package_usd": 0.000466,
+ "total_cost_usd": 0.055039,
+ "cost_per_package_usd": 0.000459,
  "recall": {
   "arithmetic": {
    "found": 18,
    "of": 18
   },
   "award_id": {
-   "found": 15,
+   "found": 18,
    "of": 18
   },
   "date": {
@@ -37,28 +37,51 @@
   {
    "seed": 4000,
    "packages": 40,
-   "cost": 0.019024,
+   "cost": 0.018427,
    "award_id": "6/6"
   },
   {
    "seed": 5000,
    "packages": 40,
-   "cost": 0.018661,
-   "award_id": "4/6"
+   "cost": 0.018244,
+   "award_id": "6/6"
   },
   {
    "seed": 6000,
    "packages": 40,
-   "cost": 0.018292,
-   "award_id": "5/6"
+   "cost": 0.018368,
+   "award_id": "6/6"
   }
  ],
- "previous_run_2026-11-26": {
-  "recorded_at": "2026-11-26",
-  "award_id": "10/18",
-  "total_cost_usd": 0.056152,
-  "note": "before the unlisted-number rule (commit 2df3950)"
+ "server_seconds": 40.3,
+ "packages_per_minute": 179,
+ "holdout_run": {
+  "note": "seeds 7000, 8000, 9000: never used while the ALN rules were being tuned",
+  "packages": 120,
+  "calls": 360,
+  "errors": 0,
+  "total_cost_usd": 0.054772,
+  "recall": "18/18 on every check",
+  "false_alarms": {
+   "packages": 30,
+   "flagged": 0
+  }
  },
- "server_seconds": 45.3,
- "packages_per_minute": 159
+ "history": [
+  {
+   "date": "2026-11-26",
+   "award_id": "10/18",
+   "note": "first run on the official list"
+  },
+  {
+   "date": "2026-11-27",
+   "award_id": "15/18",
+   "note": "after unlisted-number rule"
+  },
+  {
+   "date": "2026-11-27",
+   "award_id": "18/18",
+   "note": "after whole-word and plural-folding fixes (final code 8258ca5)"
+  }
+ ]
 }
