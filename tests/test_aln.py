@@ -88,3 +88,11 @@ class AmbiguousTitleTests(unittest.TestCase):
         from ember_ledger.checks import check_aln_program, KNOWN_ALN
         for a, t in list(KNOWN_ALN.items())[::5]:
             self.assertTrue(check_aln_program(t, a).passed, (a, t))
+
+
+class PluralTests(unittest.TestCase):
+    def test_plural_program_name_still_matches_listed_title(self):
+        from ember_ledger.checks import check_aln_program, KNOWN_ALN
+        n = next(a for a, t in KNOWN_ALN.items() if t == "emergency solutions grant program")
+        self.assertTrue(check_aln_program("Emergency Solutions Grants Program", n).passed)
+        self.assertFalse(check_aln_program("Emergency Solutions Grants Program", "14.999").passed)

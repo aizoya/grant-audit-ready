@@ -134,11 +134,16 @@ def _other_listing(program: str, known: dict, exclude: str):
     return best
 
 
+def _stem_words(text: str) -> str:
+    """Lowercase words, punctuation removed, plain plurals folded ('grants' and 'grant' compare equal)."""
+    words = re.sub(r"[^a-z0-9]+", " ", text.lower()).split()
+    return " " + " ".join(w[:-1] if len(w) > 3 and w.endswith("s") and not w.endswith("ss") else w for w in words) + " "
+
+
 def _has_phrase(phrase: str, text: str) -> bool:
     """Whole-word phrase match: 'head start' is in 'head start cluster' but not in 'overhead startup'."""
-    a = " " + re.sub(r"[^a-z0-9]+", " ", phrase.lower()).strip() + " "
-    b = " " + re.sub(r"[^a-z0-9]+", " ", text.lower()).strip() + " "
-    return a.strip() != "" and a in b
+    a = _stem_words(phrase)
+    return a.strip() != "" and a in _stem_words(text)
 
 
 def _listed_by_name(program: str, known: dict):
