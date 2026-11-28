@@ -1,40 +1,40 @@
 {
-  "voice_note": "male ElevenLabs voice; generate after the monthly character reset (about Nov 29, 6 pm PT). Planned total 138 s; real clip lengths replace these when known.",
-  "segments": [
-    {
-      "id": "s1",
-      "sec": 12,
-      "text": "Organizations subject to a Single Audit have to get their package right. Grant Audit Ready checks it before the auditor does, and never shows a finding it cannot quote."
-    },
-    {
-      "id": "s2",
-      "sec": 20,
-      "text": "This is a recorded run on a synthetic package. The model reads the awards schedule, the statements and last year's findings, and returns values with exact quotes. It does no arithmetic."
-    },
-    {
-      "id": "s3",
-      "sec": 26,
-      "text": "Plain code adds the lines: $1,277,400 against a stated total of $1,240,000. The finding carries the quote and the page. A finding whose quote is not on the page is dropped, and counted."
-    },
-    {
-      "id": "s4",
-      "sec": 20,
-      "text": "Each run shows its cost: under a twentieth of a cent here. The clean package, also a recorded run, gives no findings on this test package."
-    },
-    {
-      "id": "s5",
-      "sec": 22,
-      "text": "Scanned pages are read twice, and a finding survives only if both reads agree. We label this lower assurance. A live probe on synthetic scanned files cost about a quarter of a cent."
-    },
-    {
-      "id": "s6",
-      "sec": 30,
-      "text": "An earlier synthetic test: 120 generated packages, about six cents. Every arithmetic, date, threshold and prior-finding error was caught, ten of eighteen wrong award numbers, and no false alarms on thirty clean packages. It is not proof on real filings. We have not tested real filings at scale, or handwriting."
-    },
-    {
-      "id": "s7",
-      "sec": 8,
-      "text": "Grant Audit Ready, by AIZOYA. Try it at grantaudit.aizoya.com."
-    }
-  ]
+ "voice_note": "male ElevenLabs voice; v2 take generated Nov 27 (86.5 s, Justin Case, eleven_v4) after scene 6 was updated for the 18/18 results.",
+ "segments": [
+  {
+   "id": "s1",
+   "sec": 12,
+   "text": "Organizations subject to a Single Audit have to get their package right. Grant Audit Ready checks it before the auditor does, and never shows a finding it cannot quote."
+  },
+  {
+   "id": "s2",
+   "sec": 20,
+   "text": "This is a recorded run on a synthetic package. The model reads the awards schedule, the statements and last year's findings, and returns values with exact quotes. It does no arithmetic."
+  },
+  {
+   "id": "s3",
+   "sec": 26,
+   "text": "Plain code adds the lines: $1,277,400 against a stated total of $1,240,000. The finding carries the quote and the page. A finding whose quote is not on the page is dropped, and counted."
+  },
+  {
+   "id": "s4",
+   "sec": 20,
+   "text": "Each run shows its cost: under a twentieth of a cent here. The clean package, also a recorded run, gives no findings on this test package."
+  },
+  {
+   "id": "s5",
+   "sec": 22,
+   "text": "Scanned pages are read twice, and a finding survives only if both reads agree. We label this lower assurance. A live probe on synthetic scanned files cost about a quarter of a cent."
+  },
+  {
+   "id": "s6",
+   "sec": 30,
+   "text": "A synthetic test: 120 generated packages, about six cents. Every injected error was caught, with no false alarms on thirty clean packages. We tuned our rules on those, so we ran 120 new packages: the same result. It is not proof on real filings. We have not tested real filings at scale, or handwriting."
+  },
+  {
+   "id": "s7",
+   "sec": 8,
+   "text": "Grant Audit Ready, by AIZOYA. Try it at grantaudit.aizoya.com."
+  }
+ ]
 }
