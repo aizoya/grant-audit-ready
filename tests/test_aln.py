@@ -70,3 +70,9 @@ class UnlistedNumberTests(unittest.TestCase):
     def test_unlisted_number_with_unknown_program_not_flagged(self):
         from ember_ledger.checks import check_aln_program
         self.assertTrue(check_aln_program("Zebra Conservation Initiative", "93.999").passed)
+
+
+class WholeWordTests(unittest.TestCase):
+    def test_partial_word_is_not_a_match(self):
+        from ember_ledger.checks import check_aln_program
+        self.assertTrue(check_aln_program("Overhead Startup Fund", "93.999").passed)

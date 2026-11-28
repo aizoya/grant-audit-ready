@@ -125,7 +125,7 @@ def _other_listing(program: str, known: dict, exclude: str):
     for num, title in known.items():
         if num == exclude:
             continue
-        if title in p or (len(title) > 8 and p in title):
+        if _has_phrase(title, p) or (len(title) > 8 and _has_phrase(p, title)):
             return (num, title)
         tt = _tokens(title)
         shared = tp & tt
@@ -134,12 +134,17 @@ def _other_listing(program: str, known: dict, exclude: str):
     return best
 
 
+def _has_phrase(phrase: str, text: str) -> bool:
+    """Whole-word phrase match: 'head start' is in 'head start cluster' but not in 'overhead startup'."""
+    return re.search(r"(?<![a-z0-9])" + re.escape(phrase) + r"(?![a-z0-9])", text) is not None
+
+
 def _listed_by_name(program: str, known: dict):
     """The single listing whose whole title appears in the program name (longest title wins; ties mean no answer)."""
     p = program.lower()
     best, tie = None, False
     for num, title in known.items():
-        if len(title) >= 8 and title in p:
+        if len(title) >= 8 and _has_phrase(title, p):
             if best is None or len(title) > len(best[1]):
                 best, tie = (num, title), False
             elif len(title) == len(best[1]):
