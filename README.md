@@ -32,11 +32,11 @@ Separate from the five-sample table above. Recorded in `public/batch-run.json`; 
 | Packages / model calls / errors | 120 / 360 / 0 |
 | Total cost / per package | $0.056152 / about $0.0005 |
 | Arithmetic, date, threshold, omitted prior finding | 18/18 each |
-| Award number | 10/18 |
+| Award number | 15/18 (10/18 before the Nov 27 unlisted-number rule) |
 | Clean packages flagged | 0 of 30 |
 Reference list: official SAM.gov Assistance Listings (2,644 programs, file dated Nov 21, 2026). Not proof on real filings. A first run on the same day flagged all clean packages because `data/aln.csv` was not deployed; fixed in `fa058d6` and re-run.
 
-**Re-run Nov 27, 2026 (after the ALN-title rule and splitter fixes, commit 24676c0):** same 120 packages and seeds, 360 calls, 0 errors, $0.056425 total. Results are unchanged: arithmetic, date, threshold and prior-finding 18/18 each, award number 10/18, 0 of 30 clean packages flagged. The fixes did not move recall on synthetic data; they matter on real schedules (see below). Award-number recall is the weak spot and is reported as measured.
+**Re-run Nov 27, 2026 (commit 2df3950, new rule: an unlisted award number is flagged when the program name is a listed title):** same 120 packages and seeds, 360 calls, 0 errors, $0.055977 total, 159 packages per minute. Award number rose from 10/18 to 15/18 (seeds 6/6, 4/6, 5/6); arithmetic, date, threshold and prior-finding stayed 18/18; 0 of 30 clean packages flagged. An intermediate re-run on Nov 27 before this rule gave 10/18, so the gain comes from the rule. The 3 remaining misses are still open. Synthetic documents only; the rule was designed after seeing which mutations slipped through, so treat 15/18 as in-sample.
 
 ## First live run on a real public report (Nov 26, 2026; results only)
 One public Single Audit report (Western South Dakota Community Action, FY ended June 30, 2024) was split into its three parts and checked live with Muse Ember: cost $0.00162, 4 findings, 0 dropped, 17 checks passed. There is no ground truth for this report, so these are review flags, not confirmed errors:

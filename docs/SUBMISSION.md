@@ -31,7 +31,7 @@ Grant Audit Ready checks a nonprofit's or local government's Single Audit packag
 
 Muse Ember only reads: it returns values with exact quotes through strict JSON schemas. Plain code does the arithmetic, applies the rules (SEFA totals, statements vs awards, Single Audit threshold, report dates, period match, award numbers against the official SAM.gov list of 2,644 programs, prior findings left unanswered) and verifies every quote against the source text. A finding whose quote is not on the page is dropped and counted. Scanned PDFs go to Ember as native PDF input and are read twice; a finding survives only if both reads agree, and the report labels that mode lower assurance.
 
-Every run shows its cost. In a recorded synthetic benchmark, 120 generated packages took 360 Ember calls, $0.056 in total (about $0.0005 per package, about 167 packages per minute), caught 18/18 arithmetic, date, threshold and prior-finding errors, 10/18 wrong award numbers, and raised no false alarms on 30 clean packages. These are synthetic documents, not proof on real filings; we say so in the app and the video.
+Every run shows its cost. In a recorded synthetic benchmark, 120 generated packages took 360 Ember calls, $0.056 in total (about $0.0005 per package, about 167 packages per minute), caught 18/18 arithmetic, date, threshold and prior-finding errors, 15/18 wrong award numbers (10/18 before a Nov 27 rule fix; in-sample), and raised no false alarms on 30 clean packages. These are synthetic documents, not proof on real filings; we say so in the app and the video.
 
 Who it is for: finance leads and the CPAs who prepare Single Audit packages. Errors found in audit are expensive; found before, they are a fix.
 
