@@ -7,8 +7,17 @@ total = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries"
 log = subprocess.run(["ffmpeg", "-i", str(mp3), "-af", "silencedetect=noise=-38dB:d=0.35", "-f", "null", "-"], capture_output=True, text=True).stderr
 sil = [(float(a), float(b)) for a, b in zip(re.findall(r"silence_start: ([\d.]+)", log), re.findall(r"silence_end: ([\d.]+)", log))]
 sil = [s for s in sil if s[0] > 0.3 and s[1] < total - 0.3]
-cuts = sorted(sorted(sil, key=lambda s: s[1] - s[0], reverse=True)[:6])
-ids = [s["id"] for s in json.load(open(HERE.parents[1] / "docs" / "DEMO_NARRATION.json"))["segments"]]
+segs = json.load(open(HERE.parents[1] / "docs" / "DEMO_NARRATION.json"))["segments"]
+ids = [x["id"] for x in segs]
+# One take has no longer pauses between scenes, so place each cut where the cumulative word share says it should be,
+# then snap it to the nearest detected pause (a sentence break) within 3 s.
+words = [len(x["text"].split()) for x in segs]
+cuts, acc = [], 0
+for w in words[:-1]:
+    acc += w
+    target = total * acc / sum(words)
+    near = min(sil, key=lambda s: abs((s[0] + s[1]) / 2 - target))
+    cuts.append(near if abs((near[0] + near[1]) / 2 - target) <= 3 else (target, target))
 edges = [0.0] + [(a + b) / 2 for a, b in cuts] + [total]
 dur = {i: round(edges[k + 1] - edges[k], 2) for k, i in enumerate(ids)}
 print("segment seconds:", dur, "total", round(total, 1))
