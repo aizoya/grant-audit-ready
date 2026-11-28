@@ -76,3 +76,15 @@ class WholeWordTests(unittest.TestCase):
     def test_partial_word_is_not_a_match(self):
         from ember_ledger.checks import check_aln_program
         self.assertTrue(check_aln_program("Overhead Startup Fund", "93.999").passed)
+
+
+class AmbiguousTitleTests(unittest.TestCase):
+    def test_duplicate_titles_are_never_a_definitive_match(self):
+        from ember_ledger.checks import _listed_by_name
+        fake = {"20.301": "railroad safety", "20.302": "railroad safety"}
+        self.assertIsNone(_listed_by_name("Railroad Safety Grants", fake))
+
+    def test_self_listing_never_flagged(self):
+        from ember_ledger.checks import check_aln_program, KNOWN_ALN
+        for a, t in list(KNOWN_ALN.items())[::5]:
+            self.assertTrue(check_aln_program(t, a).passed, (a, t))

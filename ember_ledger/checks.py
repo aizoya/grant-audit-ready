@@ -136,7 +136,9 @@ def _other_listing(program: str, known: dict, exclude: str):
 
 def _has_phrase(phrase: str, text: str) -> bool:
     """Whole-word phrase match: 'head start' is in 'head start cluster' but not in 'overhead startup'."""
-    return re.search(r"(?<![a-z0-9])" + re.escape(phrase) + r"(?![a-z0-9])", text) is not None
+    a = " " + re.sub(r"[^a-z0-9]+", " ", phrase.lower()).strip() + " "
+    b = " " + re.sub(r"[^a-z0-9]+", " ", text.lower()).strip() + " "
+    return a.strip() != "" and a in b
 
 
 def _listed_by_name(program: str, known: dict):
