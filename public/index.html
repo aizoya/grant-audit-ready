@@ -5,31 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Grant Audit Ready by AIZOYA | Meta Muse Ember Hackathon</title>
 <meta name="description" content="Grant Audit Ready checks a Single Audit package before the auditor does. Every finding quotes the exact page it came from. Built on Meta Muse Ember.">
-<meta name="theme-color" content="#0B1F44">
+<meta name="theme-color" content="#071C45">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/icon-192.png">
 <link rel="apple-touch-icon" href="/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#F2F5EF;      /* ledger paper, cool green-grey */
-  --sheet:#FBFCFA;      /* the page being reviewed */
-  --ink:#0B1F44;        /* AIZOYA navy, used as ink */
-  --ink2:#123069;
-  --mute:#4C5B78;
-  --rule:#C9D3C5;       /* ledger rule */
-  --gold:#D7B06A;       /* AIZOYA gold, used as the highlighter */
+  --paper:#071C45;      /* AIZOYA navy page */
+  --sheet:#F7F9FC;      /* the page being reviewed stays light */
+  --ink:#E6EEFC;        /* light text on navy */
+  --ink2:#C9D6F0;
+  --mute:#9DB0D3;
+  --rule:rgba(157,176,211,.28);
+  --gold:#D7B06A;
   --gold-soft:#F3E2B8;
-  --gold-ink:#7A5A1C;
-  --brick:#9E3B2C;      /* pencil tick */
-  --blue:#087CF0;       /* focus and links only */
+  --gold-ink:#D7B06A;
+  --brick:#9E3B2C;
+  --blue:#0BA5F5;
 }
+.sheet{--ink:#071C45;--rule:#D9E2EC;--mute:#52627F;--gold-ink:#7A5A1C}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.65 'Hanken Grotesk',system-ui,-apple-system,Segoe UI,sans-serif;-webkit-font-smoothing:antialiased}
-h1,h2,h3{font-family:Newsreader,Georgia,serif;font-weight:500;color:var(--ink);margin:0}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.65 Inter,system-ui,-apple-system,Segoe UI,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Space Grotesk',Arial,sans-serif;font-weight:500;color:var(--ink);margin:0}
 h1{font-size:clamp(44px,7.2vw,88px);line-height:.98;letter-spacing:-.02em;max-width:11ch}
 h2{font-size:clamp(28px,3.6vw,40px);line-height:1.1;letter-spacing:-.01em;margin-bottom:14px}
 h3{font-size:22px;line-height:1.2;margin-bottom:6px}
@@ -39,44 +40,44 @@ a:hover{text-decoration-color:var(--ink)}
 :focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 
-header.top{position:sticky;top:0;z-index:10;background:rgba(242,245,239,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+header.top{position:sticky;top:0;z-index:10;background:rgba(7,28,69,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
 header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
 header.top img{height:26px;display:block}
-.btn{display:inline-flex;align-items:center;min-height:46px;padding:0 22px;border-radius:999px;font:600 16px 'Hanken Grotesk',sans-serif;text-decoration:none;border:1.5px solid var(--ink);cursor:pointer}
-.btn.primary{background:var(--ink);color:var(--paper)}
-.btn.primary:hover{background:var(--ink2)}
+.btn{display:inline-flex;align-items:center;min-height:46px;padding:0 22px;border-radius:999px;font:600 16px Inter,sans-serif;text-decoration:none;border:1.5px solid var(--ink);cursor:pointer}
+.btn.primary{background:var(--gold);border-color:var(--gold);color:#071C45}
+.btn.primary:hover{background:#E8C98F}
 .btn.ghost{background:transparent;color:var(--ink)}
-.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.btn.ghost:hover{background:var(--ink);color:#071C45}
 
 /* hero: the product's own object is a reviewed page with one highlighted line */
 .hero{padding:64px 0 48px}
 .hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px;align-items:center}
 @media(max-width:900px){.hero .wrap{grid-template-columns:1fr;gap:36px}}
-.hero .lead{font:400 21px/1.55 Newsreader,Georgia,serif;color:#24365C;margin:22px 0 28px;max-width:34em}
+.hero .lead{font:400 21px/1.55 'Space Grotesk',Arial,sans-serif;color:#C9D6F0;margin:22px 0 28px;max-width:34em}
 .cta{display:flex;flex-wrap:wrap;gap:12px}
 .byline{margin-top:26px;font-size:14px;color:var(--mute)}
 
 .sheet{position:relative;background:var(--sheet);border:1px solid var(--rule);border-radius:3px;box-shadow:0 1px 0 var(--rule),0 24px 40px -28px rgba(11,31,68,.45);margin:0}
-.sheet .folio{display:flex;justify-content:space-between;gap:12px;padding:12px 20px;border-bottom:1.5px solid var(--ink);font:600 14px 'Hanken Grotesk',sans-serif;color:var(--ink)}
+.sheet .folio{display:flex;justify-content:space-between;gap:12px;padding:12px 20px;border-bottom:1.5px solid var(--ink);font:600 14px Inter,sans-serif;color:var(--ink)}
 .sheet .folio span:last-child{color:var(--brick)}
-.sheet .body{margin:0;padding:6px 20px 8px 56px;font:400 17px/28px Newsreader,Georgia,serif;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 27px,#DCE4D8 27px 28px);background-position:0 6px;position:relative;min-height:224px}
+.sheet .body{margin:0;padding:6px 20px 8px 56px;font:400 17px/28px 'Space Grotesk',Arial,sans-serif;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ink);background:repeating-linear-gradient(to bottom,transparent 0 27px,#D9E2EC 27px 28px);background-position:0 6px;position:relative;min-height:224px}
 .sheet .body::before{content:"";position:absolute;left:40px;top:0;bottom:0;width:1px;background:var(--brick);opacity:.45}
 .sheet mark{color:var(--ink);background:linear-gradient(var(--gold-soft),var(--gold-soft)) no-repeat 0 100%/0 100%;border-bottom:2px solid var(--gold);padding:0 1px;animation:hl 900ms .6s ease-out forwards}
 @keyframes hl{to{background-size:100% 100%}}
 @media(prefers-reduced-motion:reduce){.sheet mark{animation:none;background-size:100% 100%}}
 .sheet .margin{margin:0;padding:14px 20px 16px 56px;border-top:1px solid var(--rule);font-size:15px;line-height:1.5;color:var(--ink);max-width:none}
-.sheet .margin b{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:17px;display:block}
+.sheet .margin b{font-family:'Space Grotesk',Arial,sans-serif;font-weight:600;font-size:17px;display:block}
 .sheet .margin .tick{color:var(--brick);font-weight:700;margin-right:6px}
 
 /* teaser slot: shown only when /teaser.mp4 exists */
 #teaser{display:none;padding:8px 0 48px}
 #teaser.on{display:block}
-#teaser video{width:100%;max-width:880px;display:block;border:1px solid var(--rule);border-radius:3px;background:var(--ink)}
+#teaser video{width:100%;max-width:880px;display:block;border:1px solid var(--rule);border-radius:3px;background:#051636}
 #teaser p{font-size:14px;color:var(--mute);margin-top:10px}
 
 /* tabs as a ledger index */
 .tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1.5px solid var(--ink);overflow-x:auto}
-.tabs button{background:none;border:0;border-bottom:4px solid transparent;margin-bottom:-1.5px;color:var(--mute);font:600 16px 'Hanken Grotesk',sans-serif;min-height:48px;padding:0 16px;cursor:pointer;white-space:nowrap}
+.tabs button{background:none;border:0;border-bottom:4px solid transparent;margin-bottom:-1.5px;color:var(--mute);font:600 16px Inter,sans-serif;min-height:48px;padding:0 16px;cursor:pointer;white-space:nowrap}
 .tabs button:hover{color:var(--ink)}
 .tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--gold)}
 .panel{display:none;padding:44px 0 72px}.panel.on{display:block}
@@ -86,35 +87,35 @@ header.top img{height:26px;display:block}
 .cols>div{padding:4px 28px 4px 0;margin-right:28px;border-right:1px solid var(--rule)}
 .cols>div:last-child{border-right:0;margin-right:0}
 @media(max-width:700px){.cols>div{border-right:0;border-bottom:1px solid var(--rule);padding:0 0 18px;margin:0 0 18px}.cols>div:last-child{border-bottom:0}}
-.cols p{color:#24365C}
+.cols p{color:#C9D6F0}
 .steps{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:28px}
-.steps>div::before{counter-increment:s;content:counter(s);display:block;font:500 54px/1 Newsreader,Georgia,serif;color:var(--gold);margin-bottom:6px}
-.steps p{color:#24365C}
+.steps>div::before{counter-increment:s;content:counter(s);display:block;font:500 54px/1 'Space Grotesk',Arial,sans-serif;color:var(--gold);margin-bottom:6px}
+.steps p{color:#C9D6F0}
 .aside{margin-top:36px;padding:14px 18px;border-left:3px solid var(--gold);background:rgba(215,176,106,.14);font-size:15px;max-width:72ch}
 
 table{width:100%;border-collapse:collapse;font-size:16px}
 th,td{text-align:left;padding:14px 16px 14px 0;border-bottom:1px solid var(--rule);vertical-align:top}
-th{font:600 14px 'Hanken Grotesk',sans-serif;color:var(--gold-ink);border-bottom:1.5px solid var(--ink)}
-td.n{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:19px;white-space:nowrap;padding-right:28px}
-td{color:#24365C}
+th{font:600 14px Inter,sans-serif;color:var(--gold-ink);border-bottom:1.5px solid var(--ink)}
+td.n{font-family:'Space Grotesk',Arial,sans-serif;font-weight:600;font-size:19px;white-space:nowrap;padding-right:28px}
+td{color:#C9D6F0}
 
 /* ledger lines with leader dots, for the numbers */
 .ledger{list-style:none;margin:20px 0;padding:0;max-width:760px}
 .ledger li{display:flex;align-items:baseline;gap:10px;padding:10px 0}
-.ledger .dots{flex:1;border-bottom:2px dotted #9CAA98;transform:translateY(-4px)}
+.ledger .dots{flex:1;border-bottom:2px dotted rgba(157,176,211,.5);transform:translateY(-4px)}
 .ledger .k{font-size:17px}
-.ledger .v{font:500 26px Newsreader,Georgia,serif;font-variant-numeric:tabular-nums lining-nums}
-ul.t{margin:8px 0 0;padding-left:20px;max-width:64ch}ul.t li{margin:8px 0;color:#24365C}
-.pill{display:inline-block;border:1.5px solid var(--ink);border-radius:999px;padding:6px 16px;font:600 14px 'Hanken Grotesk',sans-serif;margin:6px 8px 0 0}
+.ledger .v{font:500 26px 'Space Grotesk',Arial,sans-serif;font-variant-numeric:tabular-nums lining-nums}
+ul.t{margin:8px 0 0;padding-left:20px;max-width:64ch}ul.t li{margin:8px 0;color:#C9D6F0}
+.pill{display:inline-block;border:1.5px solid var(--ink);border-radius:999px;padding:6px 16px;font:600 14px Inter,sans-serif;margin:6px 8px 0 0}
 .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:36px 48px}
 iframe{width:100%;height:80vh;min-height:600px;border:1px solid var(--rule);border-radius:3px;background:var(--paper)}
-footer{padding:40px 0 56px;background:var(--ink);color:#C8D3EA;font-size:14px;border-top:4px solid var(--gold)}
+footer{padding:40px 0 56px;background:#051636;color:#C8D3EA;font-size:14px;border-top:4px solid var(--gold)}
 footer a{color:#fff}
 footer img{height:22px;display:block;margin-bottom:14px}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap"><a href="/" aria-label="AIZOYA home"><img src="/wordmark-navy.svg" alt="AIZOYA"></a><a class="btn primary" href="/app.html">Open the app</a></div></header>
+<header class="top"><div class="wrap"><a href="/" aria-label="AIZOYA home"><img class="mark" src="/aizoya-circle.png" alt="" width="30" height="30" style="height:30px;width:30px;margin-right:10px;display:inline-block;vertical-align:middle"><img src="/wordmark.svg" alt="AIZOYA"></a><a class="btn primary" href="/app.html">Open the app</a></div></header>
 <main>
 <div class="hero"><div class="wrap">
   <div>
